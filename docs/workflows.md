@@ -1,582 +1,187 @@
-# Workflow Design Guide
+# Workflows — Real-World Recipes
 
-## 🎯 Overview
-This guide covers proven workflows for AI-assisted development with OpenCode. Choose the workflow that best fits your task.
+> Glue patterns that combine commands, agents, skills, and MCP. Use them as inspiration or copy them whole.
 
-## 🔄 1. Explore → Plan → Code → Commit
+## 1. Test-Driven feature development
 
-The most versatile workflow for complex problems:
+Goal: implement a feature with tests written first and reviewed in plan mode.
 
-### Explore:
-- Read relevant files, images, URLs
-- Use subagents for verification
-- Do **not** code yet - understand first
-
-### Plan:
-- Ask OpenCode to create a plan
-- Review and refine the approach
-- Consider alternatives and trade-offs
-
-### Code:
-- Implement the solution
-- Verify reasonableness as you go
-- Use tests to validate
-
-### Commit:
-- Commit results with clear messages
-- Create pull requests if needed
-- Update documentation
-
-### Example:
-```bash
-# Explore: Understand the codebase
-@explore Analyze @src/auth/ for authentication implementation
-
-# Plan: Design the solution
-[Plan] How would you add OAuth2 support to the existing authentication?
-
-# Code: Implement
-[Build] Implement OAuth2 support as planned
-
-# Commit: Save changes
-!git add .
-!git commit -m "feat: Add OAuth2 authentication support"
+```text
+[plan]  > write failing tests for a `slugify` function with these specs:
+        - handles unicode (café → cafe)
+        - collapses spaces (Hello World → hello-world)
+        - strips trailing punctuation
+[build] > <Tab>
+[build] > run the failing tests to confirm they fail
+[build] > implement slugify so the tests pass
+[build] > /review @src/util/slugify.ts
+[build] > /pr
 ```
 
-## 🧪 2. Test-Driven Development (TDD)
+What's happening:
 
-Ideal for changes verifiable with unit/integration tests:
+- **`plan`** writes tests without touching code (edits default to `ask` in plan agent — easier than expected).
+- **`build`** runs the tests and implements.
+- **`/review`** custom command surfaces any issues before PR.
+- **`/pr`** opens the PR with a generated title and summary.
 
-### Write Tests:
-- Create tests based on expected behavior
-- Mark as TDD to guide OpenCode
-- Ensure tests fail initially (Red)
+## 2. Bug investigation with subagents
 
-### Run & Fail Tests:
-- Confirm tests fail as expected
-- No implementation yet
+Goal: isolate context-heavy research from your main session.
 
-### Write Code:
-- Implement minimal code to pass tests (Green)
-- Iterate with verification
+```text
+> a user reports the payment webhook is being processed twice
+> @explore find every code path that handles the payment webhook
+> @scout what does Stripe's docs say about webhook idempotency (latest)?
 
-### Refactor:
-- Improve code while keeping tests green
-- Maintain test coverage
+(based on subagent reports)
 
-### Commit:
-- Final commit after all tests pass
-
-### Example:
-```bash
-# Start TDD session
-/tdd "User registration validation"
-
-# OpenCode guides through:
-# 1. Write failing test
-# 2. Implement minimal solution
-# 3. Refactor
-# 4. Repeat for each requirement
-
-# Complete and commit
-!git add .
-!git commit -m "test: Add user registration validation"
+[plan]  > given the findings, what's the most likely root cause and how should
+          we fix it?
+[build] > implement the fix
+[build] > add an integration test that exercises the duplicate-delivery path
+[build] > /test
+[build] > /pr
 ```
 
-## 🎨 3. Visual Iteration
+`@explore` and `@scout` run in **child sessions** — separate from your main session. Their long file reads and search output don't bloat the parent conversation. Navigate between parent and children with the session-child keybinds.
 
-Perfect for UI/design work:
+## 3. Multi-agent review
 
-### Provide Visual Reference:
-- Drag and drop images into terminal
-- Provide screenshots or mockups
-- Describe desired outcome
+Goal: get two perspectives on the same change.
 
-### Implement Code:
-- Create code matching visual reference
-- Take screenshots of result
-
-### Iterate:
-- Compare result with reference
-- Make adjustments
-- Repeat until satisfied
-
-### Commit:
-- Commit final implementation
-
-### Example:
-```bash
-# Drag dashboard-mockup.png into terminal
-[Image #1: dashboard-mockup.png]
-
-# Implement based on image
-Create a React dashboard component matching [Image #1]
-
-# Iterate based on results
-The spacing looks off. Adjust to match the mockup more closely.
-
-# Finalize
-!git add .
-!git commit -m "feat: Add dashboard component"
+```text
+[build] > implement the OAuth token refresh path in src/auth/refresh.ts
+[build] > @code-reviewer review the changes in src/auth/refresh.ts
+[build] > @security-auditor audit src/auth/refresh.ts for token-handling vulns
+[build] > address the high-severity findings, then re-run @code-reviewer to verify
 ```
 
-## 🐛 4. Bug Fix Workflow
+Two specialized subagents from [`.opencode/agents/`](../.opencode/agents/) give you independent review perspectives. Run them sequentially or in parallel — your call.
 
-Systematic approach to debugging:
+## 4. Cross-repo research with MCP
 
-### Reproduce:
-- Understand the bug report
-- Reproduce the issue
-- Identify error conditions
+Goal: find how an idiom is used across GitHub before adopting it.
 
-### Diagnose:
-- Analyze logs and error messages
-- Trace through code execution
-- Identify root cause
+Configure [`grep`](https://mcp.grep.app/) MCP server in `opencode.json`:
 
-### Fix:
-- Implement solution
-- Test the fix
-- Ensure no regressions
-
-### Verify:
-- Run existing tests
-- Add regression tests
-- Confirm fix works
-
-### Example:
-```bash
-# Reproduce bug
-The user reports: "Registration fails with invalid email error"
-
-# Diagnose
-@debugger Analyze @src/auth/registration.ts for email validation issues
-
-# Fix
-[Build] Fix the email validation regex in @src/auth/registration.ts
-
-# Verify
-!npm test -- --testPathPattern=registration
-!git add .
-!git commit -m "fix: Correct email validation regex"
+```json
+{
+  "mcp": {
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app"
+    }
+  }
+}
 ```
 
-## 🚀 5. Feature Development Workflow
+Then:
 
-Complete feature implementation:
-
-### Requirements Analysis:
-- Understand feature requirements
-- Identify dependencies
-- Plan implementation steps
-
-### Architecture Design:
-- Design solution architecture
-- Plan database schema (if needed)
-- Design API endpoints
-
-### Implementation:
-- Implement backend components
-- Implement frontend components
-- Connect pieces together
-
-### Testing:
-- Write unit tests
-- Write integration tests
-- Perform user acceptance testing
-
-### Deployment:
-- Prepare for deployment
-- Update documentation
-- Deploy to environment
-
-### Example:
-```bash
-# Multi-agent feature development
-@product-manager Define requirements for user profile feature
-@architect Design profile feature architecture
-@backend Implement profile API endpoints
-@frontend Implement profile UI components
-@tester Create comprehensive test suite
-@devops Prepare deployment configuration
-@documentation Update user and developer docs
+```text
+use gh_grep to search for "useTransition" usage in React 19 codebases on GitHub
+look for the 3 most common patterns and summarize when each is used
 ```
 
-## 🧩 Workflow Customization
+OpenCode reads the search results through MCP and produces a written summary grounded in real code.
 
-Create your own workflows by combining:
+## 5. Long-running migration plan
 
-### Agent Chains:
-```bash
-# Custom workflow using agent chain
-@explore → @plan → @implement → @test → @review → @deploy
+Goal: walk a multi-step migration from a fresh plan to a tracked rollout.
+
+```text
+[plan]  > Read AGENTS.md and the architecture doc.
+          Then propose a migration plan to move from REST to GraphQL.
+          Break the plan into atomic, independently-mergeable PRs.
+          Output a checklist.
+[plan]  > save the plan as docs/migration-graphql.md
+[build] > <Tab>
+[build] > start on phase 1 of docs/migration-graphql.md — add the GraphQL server
+          skeleton. Use the /tdd workflow for each new resolver.
 ```
 
-### Skill Sequences:
-```bash
-# Custom workflow using skills
-/analyze → /plan → /implement → /test → /review → /deploy
+Combine that with the [`git-release`](../.opencode/skills/git-release/SKILL.md) skill so each phase ends with a clean tagged release:
+
+```text
+> we're about to merge phase 1 — draft release notes
 ```
 
-### Hybrid Approaches:
-```bash
-# Mix agents and skills
-@explore Analyze requirements
-/plan Create implementation plan
-@implement Write code
-/test Run tests
-/review Code review
-/deploy Deploy changes
-```
+The agent picks up the `git-release` skill from the description match and walks through release prep without explicit invocation.
 
-## 🤖 The BMAD Method (AI Agent Framework)
+## 6. CI integration — headless OpenCode in a workflow
 
-BMAD (Brainstorm, Model, Act, Deliver) is a systematic framework for AI-assisted development.
+Goal: run OpenCode on every PR to audit changes. The example below uses GitHub Actions, but the same pattern works on GitLab CI, Buildkite, CircleCI, Jenkins, or anything else that can run a shell — OpenCode is just a CLI you `curl | bash` and then invoke.
 
-### Phase 1: Brainstorm
-**Purpose:** Explore the problem space without constraints
+`.github/workflows/opencode-review.yml`:
 
-**Activities:**
-- Research existing solutions
-- Generate multiple approaches
-- Consider edge cases and constraints
-- Gather requirements and context
-
-**OpenCode Commands:**
-```bash
-# Explore the codebase
-@explore Analyze @src/ for related functionality
-
-# Research requirements
-What are the requirements for user authentication?
-
-# Generate ideas
-Brainstorm 3 different approaches to implement OAuth2
-
-# Consider constraints
-What are the security considerations for this feature?
-```
-
-**Output:**
-- Problem understanding
-- Multiple solution approaches
-- Requirements list
-- Constraints and considerations
-
-### Phase 2: Model
-**Purpose:** Create detailed, actionable plans
-
-**Activities:**
-- Select best approach from brainstorming
-- Create detailed implementation plan
-- Design architecture and components
-- Plan testing and validation
-
-**OpenCode Commands:**
-```bash
-# Create implementation plan
-[Plan] Create detailed plan for OAuth2 implementation
-
-# Design architecture
-Design the authentication system architecture
-
-# Plan testing strategy
-What tests are needed for this feature?
-
-# Create timeline
-Estimate effort and create implementation timeline
-```
-
-**Output:**
-- Detailed implementation plan
-- Architecture diagrams
-- Test plan
-- Timeline and milestones
-
-### Phase 3: Act
-**Purpose:** Execute the plan with precision
-
-**Activities:**
-- Implement code according to plan
-- Follow best practices and patterns
-- Validate implementation continuously
-- Adapt based on findings
-
-**OpenCode Commands:**
-```bash
-# Switch to Build mode
-[Build] Implement the authentication system as planned
-
-# Follow implementation steps
-1. Create OAuth2 configuration
-2. Implement callback handler
-3. Add user session management
-4. Update frontend components
-
-# Validate as you go
-Test each component as it's implemented
-```
-
-**Output:**
-- Working implementation
-- Passing tests
-- Documentation updates
-- Code review feedback addressed
-
-### Phase 4: Deliver
-**Purpose:** Complete and deploy the solution
-
-**Activities:**
-- Final testing and validation
-- Performance optimization
-- Documentation completion
-- Deployment and monitoring
-
-**OpenCode Commands:**
-```bash
-# Final testing
-/test --all
-
-# Performance optimization
-/analyze --focus performance
-
-# Documentation
-/docs update
-
-# Deployment preparation
-/deploy prepare
-```
-
-**Output:**
-- Production-ready feature
-- Comprehensive documentation
-- Deployment artifacts
-- Monitoring setup
-
-### Complete BMAD Workflow Example:
-```bash
-# Brainstorm: Explore authentication options
-@explore Analyze current authentication in @src/auth/
-What OAuth2 providers should we support?
-Brainstorm implementation approaches
-
-# Model: Create detailed plan
-[Plan] Create OAuth2 implementation plan including:
-1. Google OAuth2 integration
-2. GitHub OAuth2 integration
-3. Session management
-4. Frontend components
-5. Testing strategy
-
-# Act: Implement
-[Build] Implement Google OAuth2 first
-[Build] Implement GitHub OAuth2
-[Build] Create session management
-[Build] Update frontend login components
-/test each component
-
-# Deliver: Complete and deploy
-/test --integration
-/analyze --security
-/docs --api
-/deploy --staging
-/monitor --setup
-```
-
-### BMAD Variations:
-
-**Lightweight BMAD:** For small changes
-```bash
-# Brainstorm: Quick analysis
-What's the best way to fix this null pointer?
-
-# Model: Simple plan
-[Plan] Fix by adding null check on line 45
-
-# Act: Implement
-[Build] Add null check: if (user) { ... }
-
-# Deliver: Test and commit
-/test --unit
-!git commit -m "fix: Add null check for user object"
-```
-
-**Extended BMAD:** For complex projects
-```bash
-# Multi-phase BMAD with multiple agents
-@product-manager Brainstorm feature requirements
-@architect Model system architecture
-@team-lead Model implementation timeline
-@developers Act: Implement in parallel
-@qa-engineers Act: Test implementation
-@devops Deliver: Deploy and monitor
-@documentation Deliver: Update all docs
-```
-
-### BMAD Benefits:
-- **Consistency:** Structured approach for all tasks
-- **Quality:** Each phase validates previous work
-- **Efficiency:** Reduces rework and mistakes
-- **Documentation:** Natural documentation through process
-- **Collaboration:** Clear handoffs between phases
-
-## ⚡ Workflow Automation
-
-### Scheduled Tasks:
-```bash
-# Daily code review
-0 9 * * * opencode run "/review changed --since yesterday"
-
-# Weekly dependency audit
-0 10 * * 1 opencode run "/audit dependencies"
-
-# Monthly performance analysis
-0 11 1 * * opencode run "/analyze @src/ --focus performance"
-```
-
-### Event-Triggered Workflows:
-```bash
-# On git push
-git push && opencode run "/test && /review"
-
-# On file change
-inotifywait -m -e modify @src/ | while read; do
-  opencode run "/analyze $REPLY"
-done
-```
-
-### CI/CD Integration:
 ```yaml
-# GitHub Actions workflow
-name: OpenCode Review
-on: [pull_request]
+name: OpenCode review
+on:
+  pull_request:
+    types: [opened, synchronize]
+
 jobs:
   review:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: anomalyco/opencode-action@v1
+      - uses: actions/checkout@v5
         with:
-          command: "/review changed"
-          token: ${{ secrets.OPENCODE_TOKEN }}
+          fetch-depth: 0
+      - run: curl -fsSL https://opencode.ai/install | bash
+      - run: |
+          opencode run --agent plan --format json \
+            "Review the diff between origin/main and HEAD. Surface security and
+             correctness issues only. Output JSON with {severity,file,line,issue,fix}." \
+            > review.json
+        env:
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+      - run: gh pr comment ${{ github.event.pull_request.number }} --body-file review.json
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-## 📊 Workflow Optimization
+Equivalent shape on **GitLab CI**:
 
-### Metrics to Track:
-- Time from idea to implementation
-- Bug rate per feature
-- Test coverage changes
-- Code review feedback quality
-- Deployment frequency
-
-### Optimization Strategies:
-1. **Identify bottlenecks**: Which steps take longest?
-2. **Parallelize**: Can steps run concurrently?
-3. **Automate**: Which manual steps can be automated?
-4. **Simplify**: Can workflows be made simpler?
-5. **Standardize**: Create templates for common workflows
-
-### Continuous Improvement:
-```bash
-# Regular workflow review
-@analyzer Analyze our development workflow for improvements
-
-# Implement improvements
-[Build] Create workflow automation for repetitive tasks
-
-# Measure impact
-!opencode stats --workflow-metrics
+```yaml
+opencode-review:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  script:
+    - curl -fsSL https://opencode.ai/install | bash
+    - export PATH="$HOME/.local/bin:$PATH"
+    - opencode run --agent plan --format json "Review the diff..." > review.json
+    - 'curl -X POST -H "PRIVATE-TOKEN: $CI_TOKEN" --data-urlencode "body=$(cat review.json)" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID/notes"'
+  variables:
+    OPENCODE_API_KEY: $OPENCODE_API_KEY
 ```
 
-## 🎯 Choosing the Right Workflow
+Same idea on Buildkite, CircleCI, Jenkins — install the CLI, set the env var, run a prompt, post the result wherever you post things.
 
-### For New Features:
-- **Complex features**: Explore → Plan → Code → Commit
-- **Simple features**: Lightweight BMAD
-- **Team projects**: Extended BMAD with multiple agents
+`--dangerously-skip-permissions` is available for fully unattended runs — use it with care.
 
-### For Bug Fixes:
-- **Complex bugs**: Bug Fix Workflow
-- **Simple bugs**: Lightweight BMAD
+## 7. Visual iteration
 
-### For UI/Design:
-- **Visual changes**: Visual Iteration
-- **Component updates**: TDD or Explore → Plan → Code → Commit
+Goal: implement UI to match a mock.
 
-### For Refactoring:
-- **Major refactoring**: Explore → Plan → Code → Commit
-- **Minor improvements**: TDD
-
-## 📋 Workflow Templates
-
-### BMAD Template:
-```markdown
-# BMAD: [Feature Name]
-
-## Brainstorm
-- Requirements:
-- Approaches:
-- Constraints:
-
-## Model
-- Architecture:
-- Implementation Plan:
-- Testing Strategy:
-- Timeline:
-
-## Act
-- Implementation Steps:
-- Validation:
-- Adjustments:
-
-## Deliver
-- Final Testing:
-- Documentation:
-- Deployment:
-- Monitoring:
+```text
+[plan]  > [drag screenshot of the mock into the TUI]
+        > what HTML/CSS structure best matches this layout?
+[build] > <Tab>
+[build] > implement it under src/components/Dashboard/.
+        > take a screenshot of the result with the playwright MCP server
+        > compare the new screenshot to the mock and refine
 ```
 
-### Workflow Automation Template:
-```bash
-# .opencode/workflows/feature-development.sh
-#!/bin/bash
-# Feature Development Workflow
+Two-three iteration rounds usually produces a close visual match. Multimodal models (`opencode/gemini-3.1-pro`, `opencode/claude-sonnet-4-6`) handle the comparison well.
 
-FEATURE_NAME=$1
+## Cross-cutting tips
 
-echo "Starting feature development: $FEATURE_NAME"
-
-# 1. Explore
-@explore Analyze related code for $FEATURE_NAME
-
-# 2. Plan
-[Plan] Create implementation plan for $FEATURE_NAME
-
-# 3. Implement
-[Build] Implement $FEATURE_NAME as planned
-
-# 4. Test
-/test --feature $FEATURE_NAME
-
-# 5. Review
-/review changed
-
-# 6. Deploy
-/deploy --feature $FEATURE_NAME
-
-echo "Feature development complete: $FEATURE_NAME"
-```
-
-By designing and optimizing your workflows, you can maximize OpenCode's potential and achieve consistent, high-quality results.
+- **Always commit `.opencode/` and `AGENTS.md`.** Your workflows become reproducible across teammates.
+- **Use `/compact` aggressively** for long sessions — the summary preserves intent at a fraction of the tokens.
+- **Use subagents for read-heavy work.** Your main session shouldn't carry 50KB of grep output it'll never reference again.
+- **Pick a cheap model for `explore` and `scout` subagents.** They do dumb (but voluminous) work.
+- **Audit `opencode stats` weekly.** Surprises in cost almost always trace to one overactive agent or MCP server.
 
 ---
 
-## 📚 What's Next?
-
-- [FAQ & Troubleshooting](FAQ-TROUBLESHOOTING.md) - Common issues and solutions
-- [Back to Main Guide](../README.md)
-
----
-
-*Last updated: February 2026*
+*Last reviewed: 2026-05-18 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*
