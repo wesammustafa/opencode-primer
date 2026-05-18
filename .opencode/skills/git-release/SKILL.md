@@ -28,6 +28,7 @@ gh release create v<version> --title "<title>" --notes-file release-notes.md
 ## When to use me
 
 When the user is preparing a tagged release. Triggers include:
+
 - "draft release notes"
 - "prepare a release"
 - "what's in v1.X.Y?"

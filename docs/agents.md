@@ -144,6 +144,7 @@ Use this to keep an agent productive (no constant prompting for safe reads) whil
 ```
 
 If unspecified:
+
 - Primary agents inherit the global `model`.
 - Subagents inherit the model from whatever agent invoked them.
 

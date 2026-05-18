@@ -68,7 +68,7 @@ These are starting points; if the project's `AGENTS.md` or existing schema contr
 
 ## Output format for schema proposals
 
-```
+````markdown
 ## What this enables
 <the query / use case>
 
@@ -90,7 +90,7 @@ ALTER TABLE users ...
 
 ## Indexes
 <query → index mapping, with `EXPLAIN` analysis if available>
-```
+````
 
 ## Communication style
 

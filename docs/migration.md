@@ -89,6 +89,7 @@ permission:
 ```
 
 Key changes:
+
 - No `name` field — filename is the name.
 - `tools` becomes either the `tools` map (`{"bash": true}`) or the `permission` map (`{"bash": "allow"}`).
 - `model` is `provider/model-id`, not a shorthand.

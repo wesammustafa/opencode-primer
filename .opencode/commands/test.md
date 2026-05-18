@@ -10,6 +10,7 @@ Run the project test suite and triage failures.
 !cat package.json 2>/dev/null | grep -E '"test"|"scripts"' | head -5
 
 Pick the right command:
+
 - `pnpm test`, `npm test`, `yarn test` for Node
 - `pytest` / `python -m pytest` for Python
 - `go test ./...` for Go

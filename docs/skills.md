@@ -77,6 +77,7 @@ description: Draft release notes from merged PRs, propose a semver bump, and emi
 ```
 
 Anatomy of a good description:
+
 - **What it does** (verb-first)
 - **What it produces** (concrete output)
 - **When to use it** (trigger phrase)
