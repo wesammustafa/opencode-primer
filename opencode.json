@@ -1,0 +1,43 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "anthropic/claude-sonnet-4-5",
+  "share": "manual",
+  "autoupdate": "notify",
+  "instructions": ["AGENTS.md", "CONTRIBUTING.md"],
+  "permission": {
+    "edit": "ask",
+    "bash": {
+      "*": "ask",
+      "ls *": "allow",
+      "ls": "allow",
+      "cat *": "allow",
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "git show*": "allow",
+      "grep *": "allow",
+      "rg *": "allow",
+      "find . *": "allow",
+      "wc *": "allow",
+      "head *": "allow",
+      "tail *": "allow",
+      "rm -rf*": "deny",
+      "rm *": "ask",
+      "git push --force*": "deny",
+      "git reset --hard*": "deny",
+      "curl *": "ask",
+      "npm publish*": "deny"
+    },
+    "webfetch": "ask",
+    "websearch": "ask",
+    "external_directory": "deny"
+  },
+  "agent": {
+    "build": {
+      "model": "anthropic/claude-sonnet-4-5"
+    },
+    "plan": {
+      "model": "anthropic/claude-haiku-4-5"
+    }
+  }
+}

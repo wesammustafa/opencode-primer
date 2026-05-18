@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opencode.ai/tui.json",
+  "theme": "tokyonight",
+  "scroll_speed": 3,
+  "leader_timeout": 2000,
+  "keybinds": {
+    "command_list": "ctrl+p"
+  },
+  "attention": {
+    "enabled": true,
+    "notifications": true,
+    "sound": false,
+    "volume": 0.4
+  }
+}
