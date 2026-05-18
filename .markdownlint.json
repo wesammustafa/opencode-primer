@@ -1,0 +1,17 @@
+{
+  "default": true,
+  "MD003": { "style": "atx" },
+  "MD007": { "indent": 2 },
+  "MD013": false,
+  "MD024": { "siblings_only": true },
+  "MD025": { "front_matter_title": "" },
+  "MD026": { "punctuation": ".,;:" },
+  "MD029": { "style": "ordered" },
+  "MD033": false,
+  "MD036": false,
+  "MD040": false,
+  "MD041": false,
+  "MD046": { "style": "fenced" },
+  "MD049": { "style": "asterisk" },
+  "MD050": { "style": "asterisk" }
+}

@@ -1,0 +1,15 @@
+{
+  "ignorePatterns": [
+    { "pattern": "^https://github.com/anomalyco/opencode/issues" },
+    { "pattern": "^https://github.com/anomalyco/opencode/security/advisories" },
+    { "pattern": "^https?://localhost" },
+    { "pattern": "^http://server.local" },
+    { "pattern": "^\\.\\./\\.\\./issues" },
+    { "pattern": "^\\.\\./\\.\\./discussions" }
+  ],
+  "timeout": "15s",
+  "retryOn429": true,
+  "retryCount": 3,
+  "fallbackRetryDelay": "30s",
+  "aliveStatusCodes": [200, 206, 301, 302, 403, 429]
+}

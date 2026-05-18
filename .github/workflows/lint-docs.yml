@@ -1,0 +1,54 @@
+name: Lint docs
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  markdownlint:
+    name: markdownlint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Run markdownlint-cli2
+        uses: DavidAnson/markdownlint-cli2-action@v20
+        with:
+          globs: |
+            **/*.md
+            !node_modules
+
+  link-check:
+    name: Link check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Markdown link check
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: "yes"
+          use-verbose-mode: "yes"
+          config-file: ".github/markdown-link-check.json"
+          # Only changed files on PR; everything on push
+          check-modified-files-only: ${{ github.event_name == 'pull_request' && 'yes' || 'no' }}
+          base-branch: main
+
+  spellcheck:
+    name: Spell check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: codespell
+        uses: codespell-project/actions-codespell@v2
+        with:
+          # Tune by adding words to .github/codespell-ignore.txt
+          ignore_words_file: .github/codespell-ignore.txt
+          # Skip files we don't author
+          skip: ./LICENSE,./.git,./node_modules

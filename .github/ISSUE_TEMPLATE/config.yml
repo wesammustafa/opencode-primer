@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: OpenCode itself — bugs, features, install issues
+    url: https://github.com/anomalyco/opencode/issues
+    about: This repo is a community guide. For bugs in the OpenCode tool, file there.
+  - name: OpenCode docs
+    url: https://opencode.ai/docs
+    about: Official documentation.
+  - name: OpenCode community Discord
+    url: https://discord.gg/opencode
+    about: Real-time chat with the OpenCode community.

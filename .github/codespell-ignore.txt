@@ -1,0 +1,13 @@
+opencode
+anomalyco
+opncd
+mkdir
+typecheck
+keybind
+keybinds
+keybindings
+codeagent
+toolset
+async
+codespell
+markdownlint
