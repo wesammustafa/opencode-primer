@@ -1,172 +1,123 @@
-# OpenCode Agent Guidelines
+# AGENTS.md
 
-This document helps OpenCode understand your project's structure, conventions, and requirements.
+> Project instructions for OpenCode. Read every session.
 
-## Project Overview
+## What this repo is
 
-**Project Type**: [Describe your project type, e.g., React/TypeScript web application]
-**Purpose**: [Brief description of what the project does]
-**Key Technologies**: [List main technologies and frameworks]
+A practical, opinionated guide to using [OpenCode](https://opencode.ai) — README, supporting docs, drop-in agent prompts, MCP walkthroughs, and a worked example of a fully-configured `.opencode/` directory. It's a **documentation repository**, not application code.
 
-## Code Conventions
+## Repo layout
 
-### File Structure
 ```
-src/
-├── components/     # React components
-├── pages/         # Page components
-├── utils/         # Utility functions
-├── hooks/         # Custom React hooks
-├── types/         # TypeScript type definitions
-└── styles/        # CSS/SCSS files
-```
-
-### Naming Conventions
-- **Files**: kebab-case (e.g., `user-profile.tsx`)
-- **Components**: PascalCase (e.g., `UserProfile`)
-- **Functions**: camelCase (e.g., `formatUserName`)
-- **Constants**: UPPER_SNAKE_CASE (e.g., `MAX_RETRY_COUNT`)
-- **Types**: PascalCase with `Type` suffix (e.g., `UserProfileType`)
-
-### Code Style
-- **Indentation**: 2 spaces
-- **Semicolons**: Yes
-- **Quotes**: Single quotes for strings
-- **Line length**: 100 characters max
-- **Trailing commas**: Yes in objects and arrays
-
-## Development Guidelines
-
-### Testing
-- Write unit tests for all utility functions
-- Use Jest and React Testing Library
-- Test files should be next to source files (e.g., `component.tsx` and `component.test.tsx`)
-- Aim for 80%+ test coverage
-
-### Error Handling
-- Use try/catch for async operations
-- Log errors to console in development
-- Show user-friendly error messages in production
-- Validate all external inputs
-
-### Security
-- Never commit secrets or API keys
-- Validate and sanitize all user inputs
-- Use environment variables for configuration
-- Implement proper authentication and authorization
-
-### Performance
-- Use React.memo() for expensive components
-- Implement code splitting for large bundles
-- Optimize images and assets
-- Monitor bundle size
-
-## Project-Specific Rules
-
-### Do's
-- Use TypeScript strict mode
-- Follow the existing component patterns
-- Add comments for complex logic
-- Update documentation when changing APIs
-- Run tests before committing
-
-### Don'ts
-- Don't use `any` type in TypeScript
-- Don't commit console.log statements
-- Don't modify multiple concerns in one commit
-- Don't ignore TypeScript/ESLint warnings
-- Don't add dependencies without team approval
-
-## Common Patterns
-
-### API Calls
-```typescript
-// Use this pattern for API calls
-async function fetchUser(id: string): Promise<User> {
-  try {
-    const response = await api.get(`/users/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error('Failed to fetch user:', error);
-    throw new Error('User not found');
-  }
-}
+.
+├── README.md                       # Main guide (the centerpiece)
+├── AGENTS.md                       # This file
+├── CONTRIBUTING.md                 # How to contribute
+├── LICENSE                         # MIT
+├── docs/
+│   ├── quickstart.md               # 5-minute getting-started
+│   ├── zen.md                      # Zen model gateway details
+│   ├── tui.md                      # TUI mastery
+│   ├── agents.md                   # Custom agent deep dive
+│   ├── commands.md                 # Custom slash commands
+│   ├── skills.md                   # Agent skills
+│   ├── plugins.md                  # Plugin/hook system
+│   ├── mcp.md                      # MCP integration
+│   ├── workflows.md                # Real-world recipes
+│   ├── migration.md                # Migration from Claude Code / Cursor
+│   ├── faq.md                      # FAQ + troubleshooting
+│   └── reference/
+│       ├── cli.md                  # All CLI commands
+│       ├── slash-commands.md       # All TUI slash commands
+│       ├── permissions.md          # Permission model
+│       ├── changelog.md            # OpenCode releases
+│       └── further-reading.md      # External resources
+├── .opencode/
+│   ├── agents/                     # Example custom agents
+│   ├── commands/                   # Example custom commands
+│   └── skills/                     # Example agent skills
+├── mcp-servers/                    # MCP server walkthroughs
+├── specialized-agents/             # Drop-in specialist prompts
+│   ├── system-prompts/             # System prompts (10 roles)
+│   └── descriptions/               # Role descriptions
+└── Images/                         # Diagrams and screenshots
 ```
 
-### Component Structure
-```typescript
-// Use this component structure
-interface UserProfileProps {
-  userId: string;
-  onUpdate?: () => void;
-}
+## Editing rules
 
-export function UserProfile({ userId, onUpdate }: UserProfileProps) {
-  const [user, setUser] = useState<User | null>(null);
-  
-  useEffect(() => {
-    loadUser();
-  }, [userId]);
-  
-  async function loadUser() {
-    const data = await fetchUser(userId);
-    setUser(data);
-  }
-  
-  if (!user) return <LoadingSpinner />;
-  
-  return (
-    <div className="user-profile">
-      <h2>{user.name}</h2>
-      {/* ... */}
-    </div>
-  );
-}
-```
+### Always
 
-## Tool Configuration
+- **Cite the source.** Every factual claim about OpenCode must trace back to [opencode.ai/docs](https://opencode.ai/docs/), the [GitHub repo](https://github.com/anomalyco/opencode), or an official release note. Don't paraphrase from memory.
+- **Verify version-specific claims.** Pricing, model names, commands, and flags change. When in doubt, check the docs page that owns the topic.
+- **Use OpenCode's actual terminology.** "Custom commands" not "slash skills"; "agents" and "subagents" not "personas"; "plugins" not "hooks" (OpenCode plugins serve the hook role).
+- **Match the README's tone.** Practical, mental-model-first, prescriptive ("Reach for it when…"). No marketing fluff.
+- **Update the `Last reviewed` date** at the bottom of the README when making material changes.
 
-### Formatters
-- **Prettier**: Use project prettier config
-- **ESLint**: Follow Airbnb style guide with custom rules
-- **TypeScript**: Strict mode enabled
+### Never
 
-### Build Tools
-- **Bundler**: Vite
-- **Package Manager**: npm
-- **CI/CD**: GitHub Actions
+- **Don't invent commands, flags, or features.** If you can't verify it, leave it out.
+- **Don't hardcode prices without a "verified" date.** Always show the date next to any pricing table.
+- **Don't add `Co-Authored-By` lines to commits** unless the user asks for them.
+- **Don't `git push --force` to `main`**, ever, without explicit permission.
+- **Don't introduce affiliate links or sponsorship blocks** without the maintainer's approval.
 
-## Getting Started
+## Style conventions
 
-1. **Install dependencies**: `npm install`
-2. **Start development server**: `npm run dev`
-3. **Run tests**: `npm test`
-4. **Build for production**: `npm run build`
-5. **Check code quality**: `npm run lint`
+### Markdown
 
-## Helpful Commands
+- One blank line between sections. No trailing whitespace.
+- Code fences with language tags: ` ```bash `, ` ```json `, ` ```markdown `.
+- Internal links use anchor form: `[label](#section-id)`. Anchors are auto-derived from headings (lowercased, spaces → dashes, special chars stripped).
+- Tables: header row, separator row, no leading/trailing pipes. Keep column widths reasonable for desktop reading.
+- Callouts use blockquotes with emoji prefixes:
+  - `> 💡 **Pro Tip:** …` for tips
+  - `> ⚠️ **Warning:** …` for foot-guns
+  - `> 🆕 …` for new features
+  - `> 📚 …` for deeper-reading pointers
+- Emoji policy:
+  - **OK** — one leading emoji on H2 navigation headings (🧭 🧠 📚 📖), and the callout-prefix set above.
+  - **Not OK** — decorative emoji inside prose, in code, or on H3/H4 headings. One per spot, never decorative density.
+
+### Code samples
+
+- **JSON examples** in this repo are valid `opencode.json` snippets — paste-ready. Include the `$schema` line on full-file examples.
+- **Shell examples** assume a POSIX shell. Use `bash` fence; quote variables (`"$VAR"`).
+- **Markdown front-matter** uses YAML with `---` fences. Match the exact key spelling from the OpenCode docs (e.g., `description`, `mode`, `model`, `permission`, `tools`).
+
+### Tone
+
+- **Be concrete.** "Reach for it when X" beats "useful for X."
+- **Lead with the mental model**, then the syntax, then the example.
+- **Compare options side-by-side** when there's a choice to make (custom commands vs. skills, etc.).
+- **Emoji discipline.** Allowed: H2 navigation marker, and the callout prefixes listed under "Markdown" above. Not allowed: decoration inside prose or on H3/H4 headings.
+
+## Commands
+
+This repo has no build/test stack — it's pure markdown. Useful housekeeping:
 
 ```bash
-# Format code
-npm run format
+# Spell-check (if installed)
+codespell README.md docs/
 
-# Type check
-npm run type-check
-
-# Run all checks
-npm run check
-
-# Update dependencies
-npm run update-deps
+# Find broken internal links
+grep -nE '\]\(#[a-z0-9-]+\)' README.md docs/*.md
 ```
 
-## Contact & Support
+## How OpenCode should work in this repo
 
-- **Team**: [Your team name]
-- **Repository**: [GitHub repo URL]
-- **Documentation**: [Docs URL]
-- **Slack**: [Slack channel]
+- **Default agent:** `build` is fine — edits are local-file-only and easily reversible.
+- **No network-dependent tools needed** for editing docs. `webfetch`/`websearch` are useful only when verifying external claims.
+- **Bash:** read-only commands (`ls`, `grep`, `git status`, `git diff`) are safe to auto-allow. Writes (`rm`, `mv`, `git push`) should always require confirmation.
+
+## When to update what
+
+| Trigger | What to update |
+|---|---|
+| New OpenCode release | `docs/reference/changelog.md` + version line in README footer |
+| Pricing change | Pricing table in README + `docs/zen.md`, with new "verified" date |
+| New built-in command | Slash-command list in README + `docs/reference/slash-commands.md` |
+| Discovered factual error | Fix the source location; grep for repeats |
 
 ---
 
-*This document is automatically generated and should be updated as the project evolves.*
+*This file is read by OpenCode at every session. Keep it short, accurate, and actionable.*
