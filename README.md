@@ -3,8 +3,8 @@
 A practical guide to [OpenCode](https://opencode.ai) — from your first prompt to custom agents, skills, plugins, and MCP integrations. Built around clear mental models and real examples, not marketing.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
-[![OpenCode v1.15.4](https://img.shields.io/badge/OpenCode-v1.15.4-7C3AED?style=flat-square)](https://github.com/anomalyco/opencode/releases)
-[![Last reviewed](https://img.shields.io/badge/last%20reviewed-May%202026-22c55e?style=flat-square)](#updates--deprecations)
+[![OpenCode v1.16.2](https://img.shields.io/badge/OpenCode-v1.16.2-7C3AED?style=flat-square)](https://github.com/anomalyco/opencode/releases)
+[![Last reviewed](https://img.shields.io/badge/last%20reviewed-June%202026-22c55e?style=flat-square)](#updates--deprecations)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4?style=flat-square)](CONTRIBUTING.md)
 
 ```bash
@@ -115,7 +115,7 @@ scoop install opencode              # Windows
 choco install opencode              # Windows
 sudo pacman -S opencode             # Arch
 paru -S opencode-bin                # Arch (AUR)
-mise use -g opencode                # mise users
+mise use -g github:anomalyco/opencode  # mise users
 nix run nixpkgs#opencode            # Nix
 ```
 
@@ -201,7 +201,7 @@ Per-agent model override:
 {
   "agent": {
     "plan":         { "model": "anthropic/claude-haiku-4-5" },
-    "deep-thinker": { "model": "openai/gpt-5", "reasoningEffort": "high" }
+    "deep-thinker": { "model": "openai/gpt-5", "options": { "reasoningEffort": "high" } }
   }
 }
 ```
@@ -217,23 +217,23 @@ A curated, pay-as-you-go AI gateway. The OpenCode team tests and tunes models fo
 /models             # browse the lineup
 ```
 
-**Pricing snapshot** *(verified 2026-05-18; check [opencode.ai/docs/zen](https://opencode.ai/docs/zen) for current)*
+**Pricing snapshot** *(verified 2026-06-08; check [opencode.ai/docs/zen](https://opencode.ai/docs/zen) for current)*
 
 | Model ID | Input / Output (per MTok) | Reach for it when… |
 |---|---|---|
-| `opencode/claude-opus-4-7` | $5 / $25 | Complex reasoning, large refactors |
+| `opencode/claude-opus-4-8` | $5 / $25 | Flagship reasoning — complex refactors, large multi-file work |
 | `opencode/claude-sonnet-4-6` | $3 / $15 | Balanced everyday coding |
 | `opencode/claude-haiku-4-5` | $1 / $5 | Fast, lightweight tasks |
 | `opencode/gpt-5.5` *(≤272K)* | $5 / $30 | Long-context, OpenAI ecosystem |
 | `opencode/gpt-5.4-mini` | $0.75 / $4.50 | Cost-efficient frontier |
 | `opencode/gemini-3.1-pro` | $2 / $12 | Multimodal, Google ecosystem |
-| `opencode/qwen3.6-plus` | $0.50 / $3 | Budget-friendly heavy lifting |
+| `opencode/qwen3.7-plus` | $0.40 / $1.60 | Budget-friendly heavy lifting |
 
-**Free tier** *(rotating, time-limited, for community feedback):* `deepseek-v4-flash-free`, `minimax-m2.5-free`, `nemotron-3-super-free`, `big-pickle` *(stealth)*.
+**Free tier** *(rotating, time-limited, for community feedback):* `big-pickle` *(stealth)*, `deepseek-v4-flash-free`, `mimo-v2.5-free`, `nemotron-3-ultra-free`.
 
-> 40+ models total — full list, cached-read/write rates, GPT 5 Codex variants, GLM, Kimi, Claude Opus 4.5/4.6/4.1, etc.: [opencode.ai/docs/zen](https://opencode.ai/docs/zen) · Deeper guide: [`docs/zen.md`](docs/zen.md).
+> 50+ models total — full list, cached-read/write rates, GPT-5 Codex variants, Gemini, GLM, Kimi, MiniMax, Grok, and the Claude Opus 4.8/4.7/4.5/4.1 line: [opencode.ai/docs/zen](https://opencode.ai/docs/zen) · Deeper guide: [`docs/zen.md`](docs/zen.md).
 
-> 💡 **Pattern: cheap explorer / strong executor.** Use a cheap model (`qwen3.6-plus`, `gpt-5.4-mini`) for `explore` and `scout` subagents that read a lot, and a stronger one (`claude-sonnet-4-6` or `claude-opus-4-7`) for the main `build` agent that does the editing.
+> 💡 **Pattern: cheap explorer / strong executor.** Use a cheap model (`qwen3.7-plus`, `gpt-5.4-mini`) for `explore` and `scout` subagents that read a lot, and a stronger one (`claude-sonnet-4-6` or `claude-opus-4-8`) for the main `build` agent that does the editing.
 
 ---
 
@@ -362,7 +362,7 @@ opencode github install     # add a workflow file to your repo
 opencode pr 123             # check out PR #123 and start a session
 ```
 
-Useful `run` flags: `--continue` / `--session <id>` (resume), `--share` (publish), `--format json` (machine-readable), `--file <path>` (attach), `--dangerously-skip-permissions` (auto-approve everything not `deny` — **CI only**).
+Useful `run` flags: `--continue` / `--session <id>` (resume), `--fork` (branch a session), `--share` (publish), `--format json` (machine-readable), `--file <path>` (attach), `--replay` (interactive replay, v1.16+), `--dangerously-skip-permissions` (auto-approve everything not `deny` — **CI only**).
 
 Sessions, stats, sharing:
 
@@ -529,7 +529,7 @@ Plus npm packages via the `plugin` array in `opencode.json`:
 
 Auto-installed via Bun, cached under `~/.cache/opencode/node_modules/`.
 
-Plugins receive `{ project, directory, worktree, client, $ }` and return event handlers. `$` is the Bun shell. Events span tools, files, sessions, messages, permissions, LSP, TUI — ~25 total.
+Plugins receive `{ project, directory, worktree, client, $ }` and return hooks. `$` is the Bun shell. Two shapes: typed hooks like `tool.execute.before`/`shell.env` that get `(input, output)`, and a generic `event` handler for the lifecycle stream (files, sessions, messages, permissions, LSP, TUI — ~26 events).
 
 This repo ships two working examples in [`.opencode/plugins/`](.opencode/plugins/):
 
@@ -588,11 +588,11 @@ Filename → agent name. `frontend-engineer.md` → `@frontend-engineer` (subage
 | `subagent` | `@<name>` mentions only (runs in a child session) |
 | `all` | Both |
 
-Bash permissions accept a **glob-pattern map** (`{"*": "ask", "git status*": "allow", "rm -rf*": "deny"}`) — most-specific match wins.
+Bash permissions accept a **glob-pattern map** (`{"*": "ask", "git status*": "allow", "rm -rf*": "deny"}`) — rules match in order and the **last matching rule wins**, so list the catch-all `*` first.
 
 > 📐 This repo ships **drop-in specialist prompts** in [`specialized-agents/`](specialized-agents/) — backend, frontend, code reviewer, security reviewer, tech lead, database, UX. Copy any of them into `.opencode/agents/<name>.md` to use.
 
-> 📚 Deep dive — full frontmatter key list, all 17 permission keys, JSON-form alternative: [`docs/agents.md`](docs/agents.md) · [`docs/reference/permissions.md`](docs/reference/permissions.md).
+> 📚 Deep dive — full frontmatter key list, all 15 permission keys, JSON-form alternative: [`docs/agents.md`](docs/agents.md) · [`docs/reference/permissions.md`](docs/reference/permissions.md).
 
 ---
 
@@ -671,16 +671,22 @@ Set `bash` permission to `"ask"` at the project level, or use the glob form to w
 
 *[→ Full changelog in `docs/reference/changelog.md`](docs/reference/changelog.md)*
 
-**Current release:** **v1.15.4** *(2026-05-17)*. Run `opencode upgrade` to get it.
+**Current release:** **v1.16.2** *(2026-06-05)*. Run `opencode upgrade` to get it.
 
-**Recent highlights:**
+**New in v1.16:**
 
-- 🆕 **Agent Skills compatibility** — auto-discoverable workflows via `SKILL.md` (Claude Code-compatible).
-- 🆕 **Glob-pattern bash permissions** — fine-grained allow/ask/deny per command pattern.
-- 🆕 **Remote MCP with auto-OAuth** — Dynamic Client Registration handled out of the box.
-- 🆕 **Desktop app (beta)** — macOS, Windows, Linux at [opencode.ai/download](https://opencode.ai/download).
-- 🆕 **ACP server (`opencode acp`)** — Agent Client Protocol for editor integrations.
-- 🆕 **Managed configs** — macOS `/Library/Application Support/opencode/`, Linux `/etc/opencode/`, Windows `%ProgramData%\opencode`, plus macOS MDM preferences.
+- 🆕 **File-based agents & skill discovery** — drop-in agent markdown files and `SKILL.md` discovery are GA; scaffold an agent with `opencode agent create`.
+- 🆕 **Workspace cloning & session mobility** — managed workspace clones keep dirty/untracked files, and you can move sessions between workspaces and directories.
+- 🆕 **`opencode run --replay`** — interactively replay a run as it streams.
+- 🆕 **OpenAI models via AWS Bedrock** — plus GitHub Copilot token-based usage tracking.
+- ⚡ **~38% faster startup**, and a desktop app refresh (color themes, thinking-level selector, Servers tab).
+
+**Still recent (v1.15):**
+
+- **Glob-pattern bash permissions** — fine-grained allow/ask/deny per command pattern (rules match in order, last match wins).
+- **Remote MCP with auto-OAuth** — Dynamic Client Registration handled out of the box.
+- **ACP server (`opencode acp`)** — Agent Client Protocol for editor integrations.
+- **Managed configs** — macOS `/Library/Application Support/opencode/`, Linux `/etc/opencode/`, Windows `%ProgramData%\opencode`, plus macOS MDM preferences.
 - 📝 **AGENTS.md** is canonical; `CLAUDE.md` is now a fallback only.
 
 > 💡 Source of truth: [GitHub releases](https://github.com/anomalyco/opencode/releases).
@@ -705,4 +711,4 @@ Set `bash` permission to `"ask"` at the project level, or use the glob form to w
 
 > Features, pricing, and availability change frequently. Always check the [official OpenCode documentation](https://opencode.ai/docs/) for the most current information.
 
-*Last reviewed 2026-05-18 · OpenCode v1.15.4 · Spotted something stale? [Open an issue](../../issues) or send a PR — see [`CONTRIBUTING.md`](CONTRIBUTING.md).*
+*Last reviewed 2026-06-08 · OpenCode v1.16.2 · Spotted something stale? [Open an issue](../../issues) or send a PR — see [`CONTRIBUTING.md`](CONTRIBUTING.md).*

@@ -1,7 +1,7 @@
 ---
 description: Tech lead — makes architectural decisions, sequences work, surfaces trade-offs across teams. Plans more than it implements.
 mode: all
-model: anthropic/claude-opus-4-7
+model: anthropic/claude-opus-4-8
 temperature: 0.3
 permission:
   edit: ask

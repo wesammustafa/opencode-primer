@@ -7,27 +7,30 @@
 
 const SENSITIVE = /(^|\/)(\.env(\..*)?|secrets|credentials|id_rsa|id_ed25519|\.npmrc|\.pypirc)(\b|\/)/i;
 
-function pathFromInput(toolName, input) {
-  if (!input || typeof input !== "object") return "";
+// Pull the most likely path/command field out of a tool's arguments.
+// `read`/`edit`/`write` use `filePath`; `bash` uses `command`; others vary.
+function targetFromArgs(args) {
+  if (!args || typeof args !== "object") return "";
   return (
-    input.path ??
-    input.file_path ??
-    input.filePath ??
-    input.target ??
-    input.command ?? // for bash tool, scan the command line itself
+    args.filePath ??
+    args.path ??
+    args.file_path ??
+    args.target ??
+    args.command ?? // bash: scan the command line itself
     ""
   );
 }
 
 export const ProtectSecrets = async () => {
   return {
-    event: async ({ event }) => {
-      if (event?.type !== "tool.execute.before") return;
-
-      const candidate = pathFromInput(event.tool, event.input);
+    // `tool.execute.before` is a top-level hook with an (input, output) signature.
+    // `input.tool` is the tool name; `output.args` holds its (mutable) arguments.
+    // Throwing here aborts the tool call before it runs.
+    "tool.execute.before": async (input, output) => {
+      const candidate = targetFromArgs(output?.args);
       if (candidate && SENSITIVE.test(String(candidate))) {
         throw new Error(
-          `[protect-secrets] blocked ${event.tool} on sensitive path: ${candidate}`
+          `[protect-secrets] blocked ${input.tool} on sensitive path: ${candidate}`
         );
       }
     },

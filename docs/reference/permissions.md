@@ -12,7 +12,7 @@ Every permission accepts one of:
 | `"ask"` | User is prompted to approve each use |
 | `"deny"` | Tool is blocked outright |
 
-For `bash` (and any rule-style permission), you can also pass a **glob-pattern map** keyed by command pattern — most-specific wins, `*` is the catch-all.
+For `bash` (and any rule-style permission), you can also pass a **glob-pattern map** keyed by command pattern. Rules are matched in order and the **last matching rule wins**, so list the catch-all `*` first and put more specific overrides after it.
 
 ## Permission keys → what they gate
 
@@ -26,12 +26,12 @@ For `bash` (and any rule-style permission), you can also pass a **glob-pattern m
 | `todowrite` | in-session todo list |
 | `question` | the `question` tool |
 | `external_directory` | files outside the project root |
-| `repo_clone` | cloning dependency repos into OpenCode's cache (used by `scout`) |
-| `repo_overview` | repo-summary operations |
 | `webfetch` · `websearch` | network access |
 | `lsp` | language-server tools |
 | `skill` | loading agent skills |
 | `doom_loop` | runaway-loop safeguards |
+
+That's the full set — **15 keys** (`read`, `edit`, `glob`, `grep`, `list`, `bash`, `task`, `external_directory`, `todowrite`, `question`, `webfetch`, `websearch`, `lsp`, `doom_loop`, `skill`), per the config schema.
 
 > Note: `write` and `apply_patch` are both gated under the `edit` key, not separately.
 
@@ -116,12 +116,12 @@ The `bash` key accepts a glob-pattern map. Patterns are matched against the full
 {
   "permission": {
     "bash": {
-      "rm -rf*": "deny",
-      "git push --force*": "deny",
+      "*": "ask",
       "git status*": "allow",
       "git diff*": "allow",
       "pnpm test*": "allow",
-      "*": "ask"
+      "git push --force*": "deny",
+      "rm -rf*": "deny"
     }
   }
 }
@@ -129,7 +129,7 @@ The `bash` key accepts a glob-pattern map. Patterns are matched against the full
 
 **Matching rules:**
 
-- Patterns are evaluated by specificity — most specific match wins; `*` is the catch-all.
+- Rules are matched in order and the **last matching rule wins**. Put the catch-all `*` **first**, then list more specific overrides after it — a trailing `*` would override everything above it.
 - `*` matches zero or more characters (including spaces).
 - `?` matches exactly one character.
 - Literal text matches exactly.

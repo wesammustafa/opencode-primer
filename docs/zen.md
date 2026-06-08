@@ -2,7 +2,7 @@
 
 > **Mental model:** Zen is OpenCode's curated, pay-as-you-go AI gateway. The OpenCode team tests and benchmarks models for coding-agent workloads and ships a focused lineup with consistent pricing.
 >
-> *(Beta — verified against [opencode.ai/docs/zen](https://opencode.ai/docs/zen) on 2026-05-18. Pricing and model availability change frequently; check the docs before quoting numbers.)*
+> *(Beta — verified against [opencode.ai/docs/zen](https://opencode.ai/docs/zen) on 2026-06-08. Pricing and model availability change frequently; check the docs before quoting numbers.)*
 
 ## When to reach for Zen vs. direct providers
 
@@ -43,21 +43,21 @@ In `opencode.json`, reference a Zen model with the `opencode/` prefix:
 }
 ```
 
-> Slug format: keep the dots in the upstream model name where they exist (`gpt-5.5`, `gemini-3.1-pro`, `qwen3.6-plus`, `minimax-m2.5`); Anthropic IDs use hyphens (`claude-opus-4-7`, `claude-sonnet-4-6`).
+> Slug format: keep the dots in the upstream model name where they exist (`gpt-5.5`, `gemini-3.1-pro`, `qwen3.7-plus`, `minimax-m2.7`); Anthropic IDs use hyphens (`claude-opus-4-8`, `claude-sonnet-4-6`).
 
 ## Available models
 
-Selected lineup below. **For the full list (40+ entries, latest pricing, cached-read/write rates, and endpoint URLs), see [opencode.ai/docs/zen](https://opencode.ai/docs/zen).**
+Selected lineup below. **For the full list (50+ entries, latest pricing, cached-read/write rates, and endpoint URLs), see [opencode.ai/docs/zen](https://opencode.ai/docs/zen).**
 
 ### Anthropic family
 
 | Model ID | Input / Output (per MTok) | Notes |
 |---|---|---|
-| `opencode/claude-opus-4-7` | $5 / $25 | Flagship reasoning — complex refactors, multi-file work |
+| `opencode/claude-opus-4-8` | $5 / $25 | Flagship reasoning — complex refactors, multi-file work |
 | `opencode/claude-sonnet-4-6` | $3 / $15 | Workhorse — most coding work lives here |
 | `opencode/claude-haiku-4-5` | $1 / $5 | Cheap, fast — title generation, simple Q&A |
 
-Older versions (`claude-opus-4-6`, `claude-opus-4-5`, `claude-sonnet-4-5`, `claude-sonnet-4`, `claude-3-5-haiku`) are also available — see the full list.
+Older versions (`claude-opus-4-7`, `claude-opus-4-6`, `claude-opus-4-5`, `claude-opus-4-1`, `claude-sonnet-4-5`, `claude-sonnet-4`, `claude-3-5-haiku`) are also available — see the full list.
 
 ### OpenAI family
 
@@ -66,6 +66,7 @@ Older versions (`claude-opus-4-6`, `claude-opus-4-5`, `claude-sonnet-4-5`, `clau
 | `opencode/gpt-5.5` *(≤272K)* | $5 / $30 | Long-context flagship |
 | `opencode/gpt-5.5` *(>272K)* | $10 / $45 | Same model, beyond-window pricing |
 | `opencode/gpt-5.5-pro` | $30 / $180 | Pro variant |
+| `opencode/gpt-5.4` *(≤272K)* | $2.50 / $15 | Mid-tier frontier |
 | `opencode/gpt-5.4-mini` | $0.75 / $4.50 | Cost-efficient frontier |
 | `opencode/gpt-5.4-nano` | $0.20 / $1.25 | Cheap, fast, narrow tasks |
 | `opencode/gpt-5.3-codex` · `opencode/gpt-5.2-codex` | $1.75 / $14 | Codex-tuned variants |
@@ -76,22 +77,24 @@ GPT 5.1 / 5 / 5-codex / 5-nano are also available with their own pricing.
 
 | Model ID | Input / Output (per MTok) | Notes |
 |---|---|---|
+| `opencode/gemini-3.5-flash` | $1.50 / $9 | Newest fast Gemini |
 | `opencode/gemini-3.1-pro` *(≤200K)* | $2 / $12 | Multimodal flagship |
-| `opencode/gemini-3-flash` | $0.50 / $3 | Fast Gemini variant |
-| `opencode/qwen3.6-plus` | $0.50 / $3 | Budget-friendly heavy lifting |
-| `opencode/qwen3.5-plus` | $0.20 / $1.20 | Even cheaper |
+| `opencode/gemini-3-flash` | $0.50 / $3 | Cheaper Gemini variant |
+| `opencode/qwen3.7-max` | $2.50 / $7.50 | Qwen flagship |
+| `opencode/qwen3.7-plus` | $0.40 / $1.60 | Budget-friendly heavy lifting |
 | `opencode/kimi-k2.6` | $0.95 / $4 | Moonshot lineup |
 | `opencode/glm-5.1` | $1.40 / $4.40 | Zhipu lineup |
 | `opencode/minimax-m2.7` | $0.30 / $1.20 | MiniMax current |
+| `opencode/grok-build-0.1` | $1 / $2 | xAI coding model |
 
 ### Free tier (rotating, time-limited)
 
 For community feedback during model rollout:
 
-- `opencode/deepseek-v4-flash-free`
-- `opencode/minimax-m2.5-free`
-- `opencode/nemotron-3-super-free`
 - `opencode/big-pickle` *(stealth model)*
+- `opencode/deepseek-v4-flash-free`
+- `opencode/mimo-v2.5-free`
+- `opencode/nemotron-3-ultra-free`
 
 Great for learning OpenCode without burning a budget.
 
@@ -128,7 +131,7 @@ For complex tasks, plan with the smartest model, then hand the atomic plan to a 
 ```json
 {
   "agent": {
-    "plan":  { "model": "opencode/claude-opus-4-7" },
+    "plan":  { "model": "opencode/claude-opus-4-8" },
     "build": { "model": "opencode/claude-sonnet-4-6" }
   }
 }
@@ -180,4 +183,4 @@ Both are gateways. Zen is **curated** — the OpenCode team picks and tunes mode
 
 ---
 
-*Last reviewed: 2026-05-18 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*
+*Last reviewed: 2026-06-08 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*

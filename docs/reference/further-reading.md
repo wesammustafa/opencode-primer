@@ -66,4 +66,4 @@ These aren't OpenCode-specific, but the patterns transfer.
 
 ---
 
-*Last reviewed: 2026-05-18 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*
+*Last reviewed: 2026-06-08 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*

@@ -1,6 +1,6 @@
 // .opencode/plugins/audit-log.js
 //
-// Append a JSONL record of every successful tool call to .opencode/audit.jsonl.
+// Append a JSONL record of every completed tool call to .opencode/audit.jsonl.
 // Useful as an after-the-fact paper trail of what the agent did this session.
 //
 // Toggle off by deleting this file or by gating with an env var:
@@ -15,19 +15,16 @@ export const AuditLog = async ({ directory }) => {
   await mkdir(dirname(logPath), { recursive: true });
 
   return {
-    event: async ({ event }) => {
-      if (event?.type !== "tool.execute.after") return;
-
+    // `tool.execute.after` is a top-level hook with an (input, output) signature,
+    // fired once a tool call completes. `input.tool`/`input.args` describe the
+    // call; `output.title` is OpenCode's short summary of the result.
+    "tool.execute.after": async (input, output) => {
       const record = {
         ts: new Date().toISOString(),
-        tool: event.tool,
-        ok: !event.error,
-        // Capture small inputs only — full inputs can be huge (file content, diffs)
-        input_keys: event.input ? Object.keys(event.input) : [],
-        // Truncate long error messages
-        error: event.error
-          ? String(event.error).slice(0, 240)
-          : undefined,
+        tool: input.tool,
+        // Capture argument keys only — full args can be huge (file content, diffs)
+        arg_keys: input.args ? Object.keys(input.args) : [],
+        title: output?.title,
       };
 
       await appendFile(logPath, JSON.stringify(record) + "\n");

@@ -114,9 +114,11 @@ OpenCode equivalent (`.opencode/plugins/protect-env.js`):
 ```javascript
 export const ProtectEnv = async () => {
   return {
-    event: async ({ event }) => {
-      if (event.type === "tool.execute.before" && event.tool === "edit") {
-        if ((event.input?.path ?? "").includes(".env")) {
+    // `tool.execute.before` is a top-level hook: (input, output). `input.tool`
+    // names the tool; `output.args` holds its arguments. Throw to block.
+    "tool.execute.before": async (input, output) => {
+      if (input.tool === "edit" || input.tool === "write") {
+        if ((output?.args?.filePath ?? "").includes(".env")) {
           throw new Error("Plugin blocked: cannot write .env");
         }
       }
@@ -226,4 +228,4 @@ Migration is mostly muscle-memory adjustment, not config porting.
 
 ---
 
-*Last reviewed: 2026-05-18 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*
+*Last reviewed: 2026-06-08 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*

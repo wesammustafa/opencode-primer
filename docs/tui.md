@@ -43,6 +43,7 @@ Use the **leader key** (default `ctrl+x`) for session-level actions, and readlin
 | Key | Action |
 |---|---|
 | `Tab` | Cycle primary agents (`build` ↔ `plan` ↔ custom primaries) |
+| `shift+tab` | Cycle primary agents in reverse |
 | `Esc` | Cancel / dismiss |
 | `ctrl+c` / `ctrl+d` | Exit |
 
@@ -113,6 +114,8 @@ Drop a `tui.json` next to your `opencode.json`:
   "theme": "tokyonight",
   "leader_timeout": 2000,
   "scroll_speed": 3,
+  "diff_style": "auto",
+  "mouse": true,
   "keybinds": {
     "command_list": "ctrl+p",
     "messages_copy": ["<leader>y", "ctrl+shift+c"],
@@ -128,6 +131,8 @@ Drop a `tui.json` next to your `opencode.json`:
 ```
 
 Set a binding to `"none"` or `false` to disable. Arrays bind multiple shortcuts to the same action.
+
+Other top-level keys worth knowing: `diff_style` (`"auto"` adapts to terminal width, `"stacked"` forces single-column diffs), `mouse` (capture toggle, default `true`), and `scroll_acceleration` (macOS-style smooth scroll that overrides `scroll_speed`). The `attention` block also takes `sound_pack` (default `"opencode.default"`) and a `sounds` map for per-event overrides (`default`, `question`, `permission`, `error`, `done`, `subagent_done`).
 
 ## Themes
 

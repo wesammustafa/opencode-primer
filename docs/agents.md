@@ -25,6 +25,8 @@ Two locations, same format:
 | Project | `.opencode/agents/<name>.md` |
 | Global | `~/.config/opencode/agents/<name>.md` |
 
+> 🆕 File-based agent loading is GA as of v1.16. Scaffold one interactively with `opencode agent create` (it prompts for location, description, mode, model, and permissions), or just write the markdown by hand.
+
 ```markdown
 ---
 description: Senior frontend engineer — Tailwind + React + TypeScript expert
@@ -61,10 +63,10 @@ Verified against the [config JSON schema's `AgentConfig`](https://opencode.ai/co
 | `model` | `provider/model-id` | Per-agent model override |
 | `temperature` · `top_p` | number | Sampling controls |
 | `permission` | object | Per-tool `allow`/`ask`/`deny` (see below) |
-| `tools` | object | Boolean per tool — `{"websearch": false}` |
+| `tools` | object | *Deprecated — prefer `permission`.* Boolean per tool — `{"websearch": false}` |
 | `prompt` *(JSON form only)* | string | System prompt; alternative to markdown body |
-| `maxSteps` | number | Hard cap on agent steps in one invocation |
-| `steps` | array | Scripted step sequence (advanced) |
+| `steps` | number | Max agentic iterations before a forced text-only response |
+| `maxSteps` | number | *Deprecated — use `steps`.* |
 | `disable` | boolean | Disable an agent entirely |
 | `hidden` | boolean | Hide from the UI but keep available |
 | `color` | string | UI accent color |
@@ -100,7 +102,6 @@ Permission keys (verified against `PermissionConfig` in the [config JSON schema]
 | `todowrite` | the in-session todo list |
 | `question` | the `question` tool |
 | `external_directory` | files outside the project root |
-| `repo_clone` · `repo_overview` | repo-level operations |
 | `webfetch` · `websearch` | network access |
 | `lsp` | language server tools |
 | `skill` | agent skill loading |
@@ -110,18 +111,18 @@ Three values everywhere: `"allow"` (no prompt) · `"ask"` (prompt user) · `"den
 
 ### Glob-pattern bash
 
-The `bash` key can be a single value or a glob-map. **Order matters**: most specific patterns first.
+The `bash` key can be a single value or a glob-map. **Order matters**: rules are matched in order and the **last matching rule wins**, so put the catch-all `*` first and the more specific overrides after it.
 
 ```json
 {
   "permission": {
     "bash": {
-      "rm -rf*": "deny",
-      "git push --force*": "deny",
+      "*": "ask",
       "git status*": "allow",
       "git diff*": "allow",
       "pnpm test*": "allow",
-      "*": "ask"
+      "git push --force*": "deny",
+      "rm -rf*": "deny"
     }
   }
 }
@@ -136,9 +137,9 @@ Use this to keep an agent productive (no constant prompting for safe reads) whil
   "agent": {
     "explore":      { "model": "opencode/qwen3.6-plus" },
     "scout":        { "model": "opencode/qwen3.6-plus" },
-    "plan":         { "model": "opencode/claude-opus-4-7" },
+    "plan":         { "model": "opencode/claude-opus-4-8" },
     "build":        { "model": "opencode/claude-sonnet-4-6" },
-    "deep-thinker": { "model": "openai/gpt-5", "reasoningEffort": "high" }
+    "deep-thinker": { "model": "openai/gpt-5", "options": { "reasoningEffort": "high" } }
   }
 }
 ```
@@ -149,6 +150,8 @@ If unspecified:
 - Subagents inherit the model from whatever agent invoked them.
 
 ## Tools per agent
+
+> ⚠️ The `tools` map is **deprecated** in favor of the `permission` field (set a tool to `"deny"` to disable it). It still works and remains the simplest way to gate MCP tools by glob, but prefer `permission` for new configs.
 
 The `tools` map enables/disables individual tools by name, including MCP tools (use glob patterns):
 
@@ -224,6 +227,6 @@ permission:
 
 ## Drop-in specialists
 
-This repo ships 10 production-ready prompts in [`specialized-agents/`](../specialized-agents/). Copy any of them to `.opencode/agents/<name>.md` to use as a starting point.
+This repo ships 7 production-ready prompts in [`specialized-agents/`](../specialized-agents/) — backend, frontend, code reviewer, security reviewer, tech lead, database, and UX. Copy any of them to `.opencode/agents/<name>.md` to use as a starting point.
 
 > 📚 Full agent reference: [opencode.ai/docs/agents](https://opencode.ai/docs/agents).

@@ -71,6 +71,8 @@ opencode run --agent plan --model anthropic/claude-haiku-4-5 "audit src/ for mis
 | `--port` | Port for the local server backing this run |
 | `--variant <name>` | Model variant |
 | `--thinking` | Show thinking blocks |
+| `--replay` | Interactively replay the run as it streams *(v1.16+)* |
+| `--replay-limit <n>` | How much recent history to show when replaying |
 | `--command <name>` | Run a saved command |
 | `--dangerously-skip-permissions` | Auto-approve everything that isn't explicitly denied. **CI only.** |
 
@@ -283,7 +285,7 @@ Update OpenCode to the latest or a specific version.
 
 ```bash
 opencode upgrade
-opencode upgrade v1.15.0
+opencode upgrade v1.16.0
 opencode upgrade --method brew    # force the install method
 ```
 
