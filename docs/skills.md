@@ -58,11 +58,11 @@ version bump before doing anything destructive.
 
 | Key | Required | Constraints |
 |---|---|---|
-| `name` | yes | `^[a-z0-9]+(-[a-z0-9]+)*$`, 1–64 chars — lowercase alphanumeric with single hyphens |
+| `name` | yes | `^[a-z0-9]+(-[a-z0-9]+)*$`, 1–64 chars — lowercase alphanumeric with single hyphens. **Must match the folder name** that contains `SKILL.md`. |
 | `description` | yes | 1–1024 chars. **This is the discovery signal** — write it carefully. |
 | `license` | no | SPDX identifier ideal |
 | `compatibility` | no | `opencode`, `claude-code`, or both |
-| `metadata` | no | Arbitrary structured metadata |
+| `metadata` | no | String-to-string map (keys and values are both strings) |
 
 ### Why the `description` matters
 
@@ -84,16 +84,18 @@ Anatomy of a good description:
 
 ## Where skills live
 
-OpenCode searches multiple locations:
+OpenCode searches six locations — three project-local, three global:
 
 | Location | Scope |
 |---|---|
 | `.opencode/skills/<name>/SKILL.md` | Project |
+| `.claude/skills/<name>/SKILL.md` | Project — Claude Code compatibility |
+| `.agents/skills/<name>/SKILL.md` | Project — Agent-format compatibility |
 | `~/.config/opencode/skills/<name>/SKILL.md` | Global |
-| `.claude/skills/<name>/SKILL.md` | Claude Code compatibility |
-| `.agents/skills/<name>/SKILL.md` | Agent-format compatibility |
+| `~/.claude/skills/<name>/SKILL.md` | Global — Claude Code compatibility |
+| `~/.agents/skills/<name>/SKILL.md` | Global — Agent-format compatibility |
 
-Project skills take precedence over global. Same-named skills in different locations: project wins.
+For the project paths, OpenCode traverses upward from the working directory to the git worktree root, so a skill in a parent folder is still found. Project skills take precedence over global; same-named skills resolve project-first.
 
 ## Permissions
 

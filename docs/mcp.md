@@ -123,14 +123,17 @@ For servers that require pre-registered credentials:
 }
 ```
 
-### Managing OAuth from the CLI
+### Managing servers from the CLI
 
 ```bash
+opencode mcp add               # interactively register a local or remote server
+opencode mcp list              # show servers and auth status
 opencode mcp auth sentry       # complete or refresh OAuth flow
 opencode mcp logout sentry     # forget stored credentials
 opencode mcp debug sentry      # diagnose connection issues
-opencode mcp list              # show servers and auth status
 ```
+
+`opencode mcp add` walks you through type, command/URL, and headers, then writes the entry to your config — the no-hand-editing alternative to the JSON blocks above.
 
 ## Token budget warning
 

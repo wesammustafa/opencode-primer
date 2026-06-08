@@ -21,11 +21,11 @@
       "wc *": "allow",
       "head *": "allow",
       "tail *": "allow",
-      "rm -rf*": "deny",
+      "curl *": "ask",
       "rm *": "ask",
+      "rm -rf*": "deny",
       "git push --force*": "deny",
       "git reset --hard*": "deny",
-      "curl *": "ask",
       "npm publish*": "deny"
     },
     "webfetch": "ask",

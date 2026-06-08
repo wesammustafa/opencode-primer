@@ -14,9 +14,10 @@ curl -fsSL https://opencode.ai/install | bash
 npm i -g opencode-ai@latest
 brew install anomalyco/tap/opencode
 scoop install opencode
+choco install opencode
 sudo pacman -S opencode
 paru -S opencode-bin
-mise use -g opencode
+mise use -g github:anomalyco/opencode
 nix run nixpkgs#opencode
 ```
 
@@ -104,9 +105,9 @@ Run `opencode auth login` and pick a provider. Re-run `/connect` from inside the
 
 ```bash
 opencode upgrade            # latest
-opencode upgrade v1.15.0    # specific version
+opencode upgrade v1.16.0    # specific version
 ```
 
 ---
 
-*Last reviewed: 2026-05-18 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*
+*Last reviewed: 2026-06-08 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*

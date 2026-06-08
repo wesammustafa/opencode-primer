@@ -19,6 +19,8 @@
 
 If everything you need is already in local files, you probably don't need MCP yet.
 
+> 💡 Each walkthrough below shows the `opencode.json` entry to hand-edit. To register a server interactively instead, run `opencode mcp add` and answer the prompts.
+
 ## Cost of adding a server
 
 MCP tools land in the model's tool surface every turn. A heavy server (say, a full GitHub integration with 40 tools) can eat 10K+ tokens of context **just to describe the available tools**. Don't add a server you won't use, and disable tools you don't need with the `tools` map:

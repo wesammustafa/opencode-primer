@@ -114,7 +114,7 @@ Invoke with: `/scaffold-component UserAvatar`
 description: Deep architectural review (isolated context)
 agent: build
 subtask: true
-model: opencode/claude-opus-4-7
+model: opencode/claude-opus-4-8
 ---
 
 You are reviewing the architectural integrity of $ARGUMENTS.
@@ -157,7 +157,7 @@ If a command always runs with a particular model or agent, put it in the frontma
 ---
 description: Long, deep refactor planning (Opus only)
 agent: plan
-model: opencode/claude-opus-4-7
+model: opencode/claude-opus-4-8
 ---
 ```
 

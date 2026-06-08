@@ -57,7 +57,7 @@ opencode plugin --global opencode-wakatime
 
 ## Plugin API
 
-A plugin is a default-export async function returning an object of event handlers:
+A plugin is a default-export async function returning an object of **hooks**. There are two shapes: typed hooks like `tool.execute.before` that receive `(input, output)`, and a generic `event` handler that receives the lifecycle event stream:
 
 ```javascript
 // .opencode/plugins/notify-on-idle.js
@@ -82,13 +82,24 @@ export const NotifyOnIdle = async ({ project, client, $, directory, worktree }) 
 | `client` | OpenCode SDK client — call back into OpenCode from inside the plugin |
 | `$` | Bun shell — run commands; supports tagged-template syntax |
 
-### Available events
+### Hooks and events
+
+Two distinct shapes — don't confuse them. **Typed hooks** are top-level keys called with `(input, output)`; use them to inspect or mutate one operation (and `throw` to block it). The generic **`event`** handler receives a read-only lifecycle stream you match on `event.type`.
 
 Verified against the [Plugins doc](https://opencode.ai/docs/plugins):
 
-| Category | Events |
+**Typed hooks** — `"hook.name": async (input, output) => { … }`:
+
+| Hook | Fires | Key fields |
+|---|---|---|
+| `tool.execute.before` | Before a tool runs | `input.tool`; `output.args` (mutable) — `throw` to block |
+| `tool.execute.after` | After a tool completes | `input.tool`, `input.args`; `output.title` / `output.output` |
+| `shell.env` | Resolving shell environment | `input.cwd`; `output.env` (mutable) |
+
+**Event stream** — `event: async ({ event }) => { if (event.type === …) }`:
+
+| Category | `event.type` values |
 |---|---|
-| **Tools** | `tool.execute.before`, `tool.execute.after` |
 | **Files** | `file.edited`, `file.watcher.updated` |
 | **Sessions** | `session.created`, `session.updated`, `session.compacted`, `session.idle`, `session.status`, `session.error`, `session.diff`, `session.deleted` |
 | **Messages** | `message.updated`, `message.removed`, `message.part.updated`, `message.part.removed` |
@@ -96,11 +107,11 @@ Verified against the [Plugins doc](https://opencode.ai/docs/plugins):
 | **Permissions** | `permission.asked`, `permission.replied` |
 | **LSP** | `lsp.client.diagnostics`, `lsp.updated` |
 | **Server / installation** | `server.connected`, `installation.updated` |
-| **Shell** | `shell.env` |
 | **Todo** | `todo.updated` |
 | **TUI** | `tui.prompt.append`, `tui.command.execute`, `tui.toast.show` |
+| **Experimental** | `experimental.session.compacting` |
 
-> 📚 Each event carries event-specific payload. Full reference: [opencode.ai/docs/plugins](https://opencode.ai/docs/plugins).
+> 📚 Each hook/event carries its own payload. Full reference: [opencode.ai/docs/plugins](https://opencode.ai/docs/plugins).
 
 ## Common patterns
 
@@ -140,18 +151,15 @@ export const AuditLog = async ({ directory }) => {
   const logPath = `${directory}/.opencode/audit.jsonl`;
 
   return {
-    event: async ({ event }) => {
-      if (event.type === "tool.execute.after") {
-        await appendFile(
-          logPath,
-          JSON.stringify({
-            ts: new Date().toISOString(),
-            tool: event.tool,
-            input: event.input,
-            success: !event.error,
-          }) + "\n"
-        );
-      }
+    "tool.execute.after": async (input, output) => {
+      await appendFile(
+        logPath,
+        JSON.stringify({
+          ts: new Date().toISOString(),
+          tool: input.tool,
+          title: output?.title,
+        }) + "\n"
+      );
     },
   };
 };
@@ -175,14 +183,14 @@ export const NotifyOnIdle = async ({ $ }) => {
 
 ### 4. Block sensitive paths
 
-Prevent any edits to `.env` files or `secrets/` directories:
+Prevent any edit to `.env` files or `secrets/` directories. `tool.execute.before` is a top-level hook — throwing aborts the call before it runs:
 
 ```javascript
-export const ProtectSecrets = async ({ client }) => {
+export const ProtectSecrets = async () => {
   return {
-    event: async ({ event }) => {
-      if (event.type === "tool.execute.before" && event.tool === "edit") {
-        const path = event.input?.path ?? "";
+    "tool.execute.before": async (input, output) => {
+      if (input.tool === "edit" || input.tool === "write") {
+        const path = output?.args?.filePath ?? "";
         if (/\.env|secrets\//i.test(path)) {
           throw new Error(`Plugin blocked: ${path} is a protected path`);
         }

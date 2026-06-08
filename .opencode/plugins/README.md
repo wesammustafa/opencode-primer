@@ -5,7 +5,7 @@ Working examples of OpenCode plugins. Drop-in to any project — pure JS, no npm
 | Plugin | What it does |
 |---|---|
 | [`protect-secrets.js`](protect-secrets.js) | Blocks any tool call (read/write/bash) touching `.env*`, `secrets/`, `credentials*`, SSH keys, `.npmrc`, `.pypirc`. |
-| [`audit-log.js`](audit-log.js) | Appends a one-line JSON record of every successful tool call to `.opencode/audit.jsonl`. |
+| [`audit-log.js`](audit-log.js) | Appends a one-line JSON record of every completed tool call to `.opencode/audit.jsonl`. |
 
 ## How they load
 
@@ -25,7 +25,7 @@ tail -f .opencode/audit.jsonl    # watch tool calls live
 Sample line:
 
 ```json
-{"ts":"2026-05-18T19:30:12.451Z","tool":"edit","ok":true,"input_keys":["file_path","old_string","new_string"]}
+{"ts":"2026-06-08T19:30:12.451Z","tool":"edit","arg_keys":["filePath","oldString","newString"],"title":"src/api/auth.ts"}
 ```
 
 ## Disabling temporarily

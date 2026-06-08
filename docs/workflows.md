@@ -159,6 +159,8 @@ Same idea on Buildkite, CircleCI, Jenkins — install the CLI, set the env var, 
 
 `--dangerously-skip-permissions` is available for fully unattended runs — use it with care.
 
+> 🔧 **Native GitHub path.** Beyond the raw `curl | bash` recipe, OpenCode ships first-class GitHub commands: `opencode github install` wires up the GitHub App and workflow so `/opencode` (or `/oc`) mentions trigger the agent on issues and PRs, and `opencode pr <number>` checks out a PR branch locally and opens a session. As of v1.16, the GitHub extension refuses to commit without an existing git author identity — in Actions the runner already configures `user.name`/`user.email`, so the comment-only recipes above are unaffected.
+
 ## 7. Visual iteration
 
 Goal: implement UI to match a mock.
@@ -184,4 +186,4 @@ Two-three iteration rounds usually produces a close visual match. Multimodal mod
 
 ---
 
-*Last reviewed: 2026-05-18 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*
+*Last reviewed: 2026-06-08 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*
