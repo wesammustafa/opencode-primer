@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/wesammustafa-opencode-everything-you-need-to-know-badge.png)](https://mseep.ai/app/wesammustafa-opencode-everything-you-need-to-know)
+
 # OpenCode: Everything You Need to Know
 
 A practical guide to [OpenCode](https://opencode.ai) — from your first prompt to custom agents, skills, plugins, and MCP integrations. Built around clear mental models and real examples, not marketing.
