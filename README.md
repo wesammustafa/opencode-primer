@@ -1,14 +1,14 @@
-<img src="Images/banner.svg" alt="OpenCode: Everything You Need to Know — the community field guide to the open-source AI coding agent" width="100%">
+<img src="Images/banner.svg" alt="OpenCode Primer — everything you need to know about the open-source AI coding agent" width="100%">
 
-# OpenCode: Everything You Need to Know
+# OpenCode Primer
 
-The community field guide to [OpenCode](https://opencode.ai) — from your first prompt to custom agents, skills, plugins, and MCP integrations. Clear mental models, real examples, every fact verified against the current release.
+Everything you need to know about [OpenCode](https://opencode.ai) — from your first prompt to custom agents, skills, plugins, and MCP integrations. Clear mental models, real examples, every fact verified against the current release.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 [![OpenCode v1.17.13](https://img.shields.io/badge/OpenCode-v1.17.13-7C3AED?style=flat-square)](https://github.com/anomalyco/opencode/releases)
 [![Last reviewed](https://img.shields.io/badge/last%20reviewed-July%202026-22c55e?style=flat-square)](#updates--deprecations)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4?style=flat-square)](CONTRIBUTING.md)
-[![GitHub stars](https://img.shields.io/github/stars/wesammustafa/OpenCode-Everything-You-Need-to-Know?style=flat-square&color=eab308)](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/wesammustafa/opencode-primer?style=flat-square&color=eab308)](https://github.com/wesammustafa/opencode-primer/stargazers)
 
 ```bash
 curl -fsSL https://opencode.ai/install | bash
@@ -727,6 +727,6 @@ Set `bash` permission to `"ask"` at the project level, or use the glob form to w
 
 > Features, pricing, and availability change frequently. Always check the [official OpenCode documentation](https://opencode.ai/docs/) for the most current information.
 
-*Last reviewed 2026-07-05 · OpenCode v1.17.13 · Spotted something stale? [Open an issue](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know/issues) or send a PR — see [`CONTRIBUTING.md`](CONTRIBUTING.md).*
+*Last reviewed 2026-07-05 · OpenCode v1.17.13 · Spotted something stale? [Open an issue](https://github.com/wesammustafa/opencode-primer/issues) or send a PR — see [`CONTRIBUTING.md`](CONTRIBUTING.md).*
 
-**Found this useful? [Give it a ⭐](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know) — it's how other developers discover the guide.**
+**Found this useful? [Give it a ⭐](https://github.com/wesammustafa/opencode-primer) — it's how other developers discover the guide.**
