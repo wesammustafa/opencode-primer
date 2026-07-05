@@ -1,4 +1,4 @@
-<svg width="1280" height="640" viewBox="0 0 1280 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="OpenCode: Everything You Need to Know — the community field guide to the open-source AI coding agent">
+<svg width="1280" height="640" viewBox="0 0 1280 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="OpenCode Primer — everything you need to know about the open-source AI coding agent">
   <defs>
     <radialGradient id="glow" cx="22%" cy="18%" r="85%">
       <stop offset="0%" stop-color="#1c1330"/>
@@ -25,7 +25,7 @@
 
   <!-- left: wordmark block -->
   <g font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
-    <text x="96" y="178" font-size="17" font-weight="600" letter-spacing="6" fill="#a78bfa">THE COMMUNITY FIELD GUIDE</text>
+    <text x="96" y="178" font-size="17" font-weight="600" letter-spacing="6" fill="#a78bfa">THE COMMUNITY PRIMER</text>
     <text x="93" y="272" font-size="92" font-weight="800" fill="#f5f3ff" letter-spacing="-2">OpenCode</text>
     <text x="96" y="330" font-size="34" font-weight="500" fill="#b9b4c7">Everything You Need to Know</text>
 

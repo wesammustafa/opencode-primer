@@ -79,7 +79,7 @@ npx markdown-link-check -c .github/markdown-link-check.json README.md
 
 ## Questions
 
-Open a [GitHub Discussion](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know/discussions) or an [issue](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know/issues). Drive-by PRs are welcome too — we'll suggest changes in review.
+Open a [GitHub Discussion](https://github.com/wesammustafa/opencode-primer/discussions) or an [issue](https://github.com/wesammustafa/opencode-primer/issues). Drive-by PRs are welcome too — we'll suggest changes in review.
 
 ---
 
