@@ -38,13 +38,13 @@
 
 ## Adjacent AI coding tools (for comparison or coexistence)
 
-- **[Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview)** — Anthropic's CLI; shares the `.claude/skills/` and `CLAUDE.md` formats OpenCode reads as fallbacks
+- **[Claude Code](https://code.claude.com/docs/en/overview)** — Anthropic's CLI; shares the `.claude/skills/` and `CLAUDE.md` formats OpenCode reads as fallbacks
 - **[Aider](https://aider.chat/)** — Earlier terminal AI coding tool
-- **[Cursor](https://cursor.sh/)** — VS Code fork with embedded AI
+- **[Cursor](https://cursor.com/)** — VS Code fork with embedded AI
 
 ## Provider docs (for direct-provider setup)
 
-- **[Anthropic API](https://docs.anthropic.com/en/api/getting-started)**
+- **[Anthropic API](https://platform.claude.com/docs/en/api/getting-started)**
 - **[OpenAI API](https://platform.openai.com/docs)**
 - **[Google AI / Gemini API](https://ai.google.dev/gemini-api/docs)**
 - **[Groq](https://console.groq.com/docs)**
@@ -56,7 +56,7 @@
 
 These aren't OpenCode-specific, but the patterns transfer.
 
-- **[Anthropic — Prompt engineering overview](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)**
+- **[Anthropic — Prompt engineering overview](https://platform.claude.com/docs/en/docs/build-with-claude/prompt-engineering/overview)**
 - **[Anthropic — Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)**
 - **[OpenAI — Prompt engineering guide](https://platform.openai.com/docs/guides/prompt-engineering)**
 
@@ -66,4 +66,4 @@ These aren't OpenCode-specific, but the patterns transfer.
 
 ---
 
-*Last reviewed: 2026-06-08 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*
+*Last reviewed: 2026-07-05 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*

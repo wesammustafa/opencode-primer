@@ -5,7 +5,7 @@
 // on top of `external_directory: deny` and gitignore — never your only line
 // of defense, but a useful one.
 
-const SENSITIVE = /(^|\/)(\.env(\..*)?|secrets|credentials|id_rsa|id_ed25519|\.npmrc|\.pypirc)(\b|\/)/i;
+const SENSITIVE = /(^|[\s\/"'=])(\.env(\.[^\s]*)?|secrets|credentials|id_rsa|id_ed25519|\.npmrc|\.pypirc)(\b|\/)/i;
 
 // Pull the most likely path/command field out of a tool's arguments.
 // `read`/`edit`/`write` use `filePath`; `bash` uses `command`; others vary.
@@ -36,5 +36,3 @@ export const ProtectSecrets = async () => {
     },
   };
 };
-
-export default ProtectSecrets;

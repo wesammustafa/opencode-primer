@@ -56,3 +56,7 @@
 Any markdown file in `.opencode/commands/<name>.md` (or `~/.config/opencode/commands/`) creates a `/<name>` slash command. See [`../commands.md`](../commands.md) for the file format.
 
 > 📚 Source: [opencode.ai/docs/tui](https://opencode.ai/docs/tui). Built-in command set may evolve — check the docs for the current set.
+
+---
+
+*Last reviewed: 2026-07-05.*

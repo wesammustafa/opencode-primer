@@ -1,7 +1,7 @@
 ---
 description: Database engineer — schema design, migrations, indexing, and query performance. Postgres-first but adapts.
 mode: all
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-5
 temperature: 0.1
 permission:
   edit: allow

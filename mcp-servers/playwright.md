@@ -19,11 +19,8 @@ Add to `opencode.json`:
   "mcp": {
     "playwright": {
       "type": "local",
-      "command": ["npx", "-y", "@playwright/mcp@latest"],
-      "enabled": true,
-      "environment": {
-        "BROWSER_TYPE": "chromium"
-      }
+      "command": ["npx", "-y", "@playwright/mcp@latest", "--browser", "chromium"],
+      "enabled": true
     }
   }
 }
@@ -36,6 +33,8 @@ opencode mcp list
 ```
 
 You should see `playwright` in the list.
+
+> 💡 **Pro Tip:** The browser is picked with the `--browser` CLI flag (`chromium`, `firefox`, `webkit`, `msedge`) or the `PLAYWRIGHT_MCP_BROWSER` env var — there is no `BROWSER_TYPE` variable.
 
 ## Example prompts
 
@@ -81,14 +80,14 @@ Two-three iteration rounds usually closes the gap.
 
 ## What it won't do
 
-- Persist browser state across sessions by default (use `--user-data-dir` if you need this)
 - Bypass strong bot detection (Cloudflare, etc.)
 - Replace a real E2E test suite (use the screenshots and traces to *write* the tests)
 
 ## Gotchas
 
 - **First run is slow** — Playwright downloads a browser the first time you invoke it.
-- **Headless by default** — you don't see the browser. Pass `BROWSER_HEADED=1` in `environment` to watch it run (useful for debugging).
+- **Headed by default** — when a display is available, a visible browser window opens. Pass `--headless` (or set `PLAYWRIGHT_MCP_HEADLESS=1`) for CI and other display-less environments.
+- **Persistent profile by default** — cookies and logins survive across sessions. Pass `--isolated` for a throwaway in-memory session instead.
 - **Cross-origin / authenticated flows** — use Playwright's auth-state file pattern; see the upstream docs.
 
 ## Resources

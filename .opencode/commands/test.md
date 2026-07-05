@@ -7,7 +7,7 @@ Run the project test suite and triage failures.
 
 1. Detect the runner from the repo and run it:
 
-!cat package.json 2>/dev/null | grep -E '"test"|"scripts"' | head -5
+!`cat package.json 2>/dev/null | grep -E '"test"|"scripts"' | head -5`
 
 Pick the right command:
 
@@ -17,9 +17,7 @@ Pick the right command:
 - `cargo test` for Rust
 - Other: read the project's `AGENTS.md` for the canonical command
 
-2. Run it and capture the output:
-
-!{the chosen test command}
+2. Run the chosen test command with the bash tool and capture the output. (Shell injections like the one above expand *before* the model runs, so the command you picked in step 1 has to be run as a normal tool call, not a template.)
 
 3. If everything passes, print a one-line summary and stop.
 

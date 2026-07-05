@@ -1,7 +1,7 @@
 ---
 description: Senior code reviewer — reads diffs and surfaces bugs, security issues, perf problems, and maintainability concerns without modifying files.
 mode: subagent
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-5
 temperature: 0.1
 permission:
   edit: deny

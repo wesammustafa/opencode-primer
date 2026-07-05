@@ -165,15 +165,22 @@ Glob patterns work too — useful for MCP tools:
 - All tools are **enabled by default**.
 - Most permissions default to `"allow"` for the `build` agent.
 - The built-in `plan` agent sets `edit` and `bash` to `"ask"` so analysis sessions can't surprise-write files.
-- `external_directory` is **opt-in** — files outside the project root require explicit `"allow"`.
+- `external_directory` and `doom_loop` default to `"ask"` — touching files outside the project root, or repeating the same tool call 3+ times, prompts for approval.
+- `*.env` files are **denied by default** (`*.env.example` is allowed).
 
 ## When to lock things down
 
 | Scenario | Recommendation |
 |---|---|
 | Shared repo, multiple contributors | Commit a restrictive `opencode.json` so everyone's agent has the same guardrails |
-| CI / headless | Use `--dangerously-skip-permissions` only after auditing what the prompt can reach |
+| CI / headless | Use `--auto` (auto-approves everything not explicitly denied) only after auditing what the prompt can reach |
 | Working with secrets | `external_directory: "deny"` plus a plugin that blocks edits to `.env`/`secrets/` |
 | First time on a repo | Set `bash: "ask"` everywhere until you trust the workflows |
 
+> 🆕 v1.17.12 added TUI **yolo mode** — the interactive counterpart of `--auto`, auto-approving permission prompts from within the TUI. Same caveats apply.
+
 > 📚 Live reference: [opencode.ai/docs/permissions](https://opencode.ai/docs/permissions) and [opencode.ai/docs/agents](https://opencode.ai/docs/agents).
+
+---
+
+*Last reviewed: 2026-07-05.*

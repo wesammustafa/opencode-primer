@@ -25,13 +25,13 @@ Two locations, same format:
 | Project | `.opencode/agents/<name>.md` |
 | Global | `~/.config/opencode/agents/<name>.md` |
 
-> 🆕 File-based agent loading is GA as of v1.16. Scaffold one interactively with `opencode agent create` (it prompts for location, description, mode, model, and permissions), or just write the markdown by hand.
+> 🆕 File-based agent loading is GA as of v1.16. Scaffold one interactively with `opencode agent create` (it prompts for location, description, mode, and permissions), or just write the markdown by hand.
 
 ```markdown
 ---
 description: Senior frontend engineer — Tailwind + React + TypeScript expert
 mode: all
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-5
 temperature: 0.2
 permission:
   edit: allow
@@ -72,7 +72,7 @@ Verified against the [config JSON schema's `AgentConfig`](https://opencode.ai/co
 | `color` | string | UI accent color |
 | `variant` · `options` | string · object | Model variant + per-provider options |
 
-Only `description` and `mode` are required.
+Only `description` is effectively required — `mode` is optional and defaults to `all`.
 
 ### Filename → agent name
 
@@ -198,7 +198,7 @@ A daily-driver agent with a baked-in role. Different model, different prompt, di
 ---
 description: Backend engineer — TypeScript, Postgres, REST
 mode: primary
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-5
 permission:
   bash:
     "*": "ask"
@@ -230,3 +230,7 @@ permission:
 This repo ships 7 production-ready prompts in [`specialized-agents/`](../specialized-agents/) — backend, frontend, code reviewer, security reviewer, tech lead, database, and UX. Copy any of them to `.opencode/agents/<name>.md` to use as a starting point.
 
 > 📚 Full agent reference: [opencode.ai/docs/agents](https://opencode.ai/docs/agents).
+
+---
+
+*Last reviewed: 2026-07-05 · Canonical source: [opencode.ai/docs/agents](https://opencode.ai/docs/agents).*

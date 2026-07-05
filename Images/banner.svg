@@ -1,0 +1,74 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="OpenCode: Everything You Need to Know — the community field guide to the open-source AI coding agent">
+  <defs>
+    <radialGradient id="glow" cx="22%" cy="18%" r="85%">
+      <stop offset="0%" stop-color="#1c1330"/>
+      <stop offset="55%" stop-color="#0e0d14"/>
+      <stop offset="100%" stop-color="#0a0a0e"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#c4b5fd"/>
+    </linearGradient>
+    <linearGradient id="cardstroke" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3f3358"/>
+      <stop offset="100%" stop-color="#1d1a26"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#glow)"/>
+
+  <!-- faint grid -->
+  <g stroke="#ffffff" stroke-opacity="0.025">
+    <path d="M0 160H1280M0 320H1280M0 480H1280"/>
+    <path d="M256 0V640M512 0V640M768 0V640M1024 0V640"/>
+  </g>
+
+  <!-- left: wordmark block -->
+  <g font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+    <text x="96" y="178" font-size="17" font-weight="600" letter-spacing="6" fill="#a78bfa">THE COMMUNITY FIELD GUIDE</text>
+    <text x="93" y="272" font-size="92" font-weight="800" fill="#f5f3ff" letter-spacing="-2">OpenCode</text>
+    <text x="96" y="330" font-size="34" font-weight="500" fill="#b9b4c7">Everything You Need to Know</text>
+
+    <rect x="96" y="366" width="72" height="4" rx="2" fill="url(#accent)"/>
+
+    <text x="96" y="416" font-size="21" fill="#8f8a9e">From first prompt to agents, skills, plugins, MCP,</text>
+    <text x="96" y="448" font-size="21" fill="#8f8a9e">and headless CI — verified against every release.</text>
+
+    <!-- chips -->
+    <g font-size="15" font-weight="600">
+      <rect x="96"  y="490" width="92"  height="36" rx="18" fill="#171423" stroke="#332b49"/>
+      <text x="142" y="513" fill="#c4b5fd" text-anchor="middle">Agents</text>
+      <rect x="200" y="490" width="80" height="36" rx="18" fill="#171423" stroke="#332b49"/>
+      <text x="240" y="513" fill="#c4b5fd" text-anchor="middle">Skills</text>
+      <rect x="292" y="490" width="96" height="36" rx="18" fill="#171423" stroke="#332b49"/>
+      <text x="340" y="513" fill="#c4b5fd" text-anchor="middle">Plugins</text>
+      <rect x="400" y="490" width="72" height="36" rx="18" fill="#171423" stroke="#332b49"/>
+      <text x="436" y="513" fill="#c4b5fd" text-anchor="middle">MCP</text>
+      <rect x="484" y="490" width="70" height="36" rx="18" fill="#171423" stroke="#332b49"/>
+      <text x="519" y="513" fill="#c4b5fd" text-anchor="middle">Zen</text>
+      <rect x="566" y="490" width="122" height="36" rx="18" fill="#171423" stroke="#332b49"/>
+      <text x="627" y="513" fill="#c4b5fd" text-anchor="middle">Headless CI</text>
+    </g>
+  </g>
+
+  <!-- right: terminal card -->
+  <g>
+    <rect x="742" y="150" width="446" height="312" rx="16" fill="#100e17" stroke="url(#cardstroke)" stroke-width="1.5"/>
+    <rect x="742" y="150" width="446" height="44" rx="16" fill="#161320"/>
+    <rect x="742" y="178" width="446" height="16" fill="#161320"/>
+    <circle cx="772" cy="172" r="6" fill="#ff5f57"/>
+    <circle cx="794" cy="172" r="6" fill="#febc2e"/>
+    <circle cx="816" cy="172" r="6" fill="#28c840"/>
+    <text x="965" y="178" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" fill="#6f697f" text-anchor="middle">~/your-project</text>
+
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16.5">
+      <text x="774" y="238"><tspan fill="#8b5cf6">$</tspan><tspan fill="#e8e6ef" dx="10">curl -fsSL opencode.ai/install | bash</tspan></text>
+      <text x="774" y="274"><tspan fill="#8b5cf6">$</tspan><tspan fill="#e8e6ef" dx="10">opencode</tspan></text>
+      <text x="774" y="318" fill="#6f697f">┌ opencode v1.17</text>
+      <text x="774" y="350"><tspan fill="#6f697f">│</tspan><tspan fill="#b9b4c7" dx="10">agent</tspan><tspan fill="#c4b5fd" dx="12">build</tspan><tspan fill="#6f697f" dx="12">· Tab to cycle</tspan></text>
+      <text x="774" y="382"><tspan fill="#6f697f">│</tspan><tspan fill="#b9b4c7" dx="10">model</tspan><tspan fill="#c4b5fd" dx="12">any provider, your keys</tspan></text>
+      <text x="774" y="414" fill="#6f697f">└ /init to generate AGENTS.md</text>
+      <text x="774" y="446"><tspan fill="#8b5cf6">&gt;</tspan><tspan fill="#e8e6ef" dx="10">fix the failing test</tspan><tspan fill="#c4b5fd" dx="6">▌</tspan></text>
+    </g>
+  </g>
+</svg>

@@ -4,7 +4,7 @@
 
 ## Skill vs. Command — when to use which
 
-| | Agent Skill | Custom Command |
+| | Agent Skill | [Custom Command](commands.md) |
 |---|---|---|
 | Trigger | Agent decides (description match) | User types `/<name>` |
 | File | `.opencode/skills/<name>/SKILL.md` *(folder)* | `.opencode/commands/<name>.md` *(file)* |
@@ -61,7 +61,7 @@ version bump before doing anything destructive.
 | `name` | yes | `^[a-z0-9]+(-[a-z0-9]+)*$`, 1–64 chars — lowercase alphanumeric with single hyphens. **Must match the folder name** that contains `SKILL.md`. |
 | `description` | yes | 1–1024 chars. **This is the discovery signal** — write it carefully. |
 | `license` | no | SPDX identifier ideal |
-| `compatibility` | no | `opencode`, `claude-code`, or both |
+| `compatibility` | no | Open-ended string — e.g. `opencode` |
 | `metadata` | no | String-to-string map (keys and values are both strings) |
 
 ### Why the `description` matters
@@ -95,7 +95,7 @@ OpenCode searches six locations — three project-local, three global:
 | `~/.claude/skills/<name>/SKILL.md` | Global — Claude Code compatibility |
 | `~/.agents/skills/<name>/SKILL.md` | Global — Agent-format compatibility |
 
-For the project paths, OpenCode traverses upward from the working directory to the git worktree root, so a skill in a parent folder is still found. Project skills take precedence over global; same-named skills resolve project-first.
+For the project paths, OpenCode traverses upward from the working directory to the git worktree root, so a skill in a parent folder is still found. Same-named skills resolve project-first.
 
 ## Permissions
 
@@ -178,6 +178,10 @@ Body: CLI invocation, common flags, what success and failure look like.
 
 ## Compatibility with Claude Code
 
-Skills using `compatibility: claude-code` work in both tools — OpenCode reads from `.claude/skills/`, Claude Code reads from there natively. Useful for teams running both.
+A skill in `.claude/skills/` works in both tools — OpenCode searches that path (see the table above), and Claude Code reads it natively. The sharing comes from the search path, not the `compatibility` value. Useful for teams running both.
 
 > 📚 Full Skills guide: [opencode.ai/docs/skills](https://opencode.ai/docs/skills).
+
+---
+
+*Last reviewed: 2026-07-05 · Canonical source: [opencode.ai/docs/skills](https://opencode.ai/docs/skills).*

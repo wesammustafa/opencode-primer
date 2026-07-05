@@ -30,7 +30,7 @@ This Code of Conduct applies within all project spaces — issues, pull requests
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the maintainers by opening a confidential issue or contacting the repository owner directly. All complaints will be reviewed and investigated promptly and fairly.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the maintainers by contacting the repository owner directly via their GitHub profile. (For security issues specifically, use [GitHub's private vulnerability reporting](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know/security/advisories/new) instead — see [`SECURITY.md`](SECURITY.md).) All complaints will be reviewed and investigated promptly and fairly.
 
 Maintainers are obligated to respect the privacy and security of the reporter of any incident.
 

@@ -7,9 +7,9 @@ Create a pull request from the current branch:
 
 1. Read the current state:
 
-!git status --short
-!git log main..HEAD --oneline
-!git diff main...HEAD --stat
+!`git status --short`
+!`git log main..HEAD --oneline`
+!`git diff main...HEAD --stat`
 
 2. Decide on a PR title:
    - Match the repo's conventional-commits style (`feat:`, `fix:`, `refactor:`, `docs:`, …)

@@ -8,7 +8,7 @@ Run a code review with these inputs:
 - Scope: `$ARGUMENTS` if provided, otherwise the current branch's diff vs `main`.
 - Changed files (always check):
 
-!git diff --name-only main...HEAD
+!`git diff --name-only main...HEAD`
 
 For each changed file, evaluate (in this order):
 

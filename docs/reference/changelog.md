@@ -4,11 +4,26 @@
 
 This document tracks **what's new at a high level** — the things that change how you use OpenCode. Bug fixes and small polish items aren't listed here.
 
-## v1.16.x — June 2026
+## v1.17.x — June–July 2026
 
 Current stable line. Run `opencode upgrade` to get the latest.
 
-**Verified latest release:** `v1.16.2`, published 2026-06-05 ([GitHub release](https://github.com/anomalyco/opencode/releases/tag/v1.16.2)). The headline features shipped in `v1.16.0` the same day.
+**Verified latest release:** `v1.17.13`, published 2026-07-01 ([GitHub release](https://github.com/anomalyco/opencode/releases/tag/v1.17.13)).
+
+**Highlights:**
+
+- **Session snapshots & revert** (`v1.17.11`) — roll a session back to an earlier message, including file changes; plus desktop Chrome-style tabs (mod+1–9).
+- **TUI yolo mode** (`v1.17.12`) — auto-approve permissions from inside the TUI; plus adaptive thinking for Claude Sonnet 5.
+- **`--mini` CLI mode, MCP resources, V2 plugin API** (`v1.17.10`) — MCP resource template listing + resource read tools, MCP server instructions appended to session context, and a V2 plugin API (Effect and Promise plugins).
+- **Agent `steps` limits honored** (`v1.17.9`) — hitting the limit forces a final text response instead of failing mid-run.
+- **`cwd` option for local MCP servers** (`v1.17.4`) — plus connector-based auth and stored provider credentials.
+- **Faster file search (fff-backed), WSL-backed Desktop on Windows, Cohere North models** (`v1.17.0`) — plus non-interactive `opencode mcp add`.
+- **`reference` config key renamed to `references`** (`v1.17.1`) — the old key still loads; see Deprecations below.
+- **Searchable v2 model picker in the desktop composer** (`v1.17.13`) — plus session tab hover preview.
+
+## v1.16.x — June 2026
+
+**Latest:** `v1.16.2`, published 2026-06-05 ([GitHub release](https://github.com/anomalyco/opencode/releases/tag/v1.16.2)). The headline features shipped in `v1.16.0` the same day.
 
 **Highlights:**
 
@@ -71,8 +86,9 @@ For the current state, check the [GitHub repo](https://github.com/anomalyco/open
 
 ## Deprecations
 
+- `reference` config key — renamed to `references` in `v1.17.1`. (The old key still loads.)
 - `CLAUDE.md` as a primary instructions file — use `AGENTS.md`. (Fallback still works; disable with `OPENCODE_DISABLE_CLAUDE_CODE=1`.)
 
 ---
 
-*Last reviewed: 2026-06-08 · For the authoritative list, see [GitHub releases](https://github.com/anomalyco/opencode/releases) · Canonical docs: [opencode.ai/docs](https://opencode.ai/docs/).*
+*Last reviewed: 2026-07-05 · For the authoritative list, see [GitHub releases](https://github.com/anomalyco/opencode/releases) · Canonical docs: [opencode.ai/docs](https://opencode.ai/docs/).*

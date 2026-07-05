@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "anthropic/claude-sonnet-4-5",
+  "model": "anthropic/claude-sonnet-5",
   "share": "manual",
   "autoupdate": "notify",
   "instructions": ["AGENTS.md", "CONTRIBUTING.md"],
@@ -34,7 +34,7 @@
   },
   "agent": {
     "build": {
-      "model": "anthropic/claude-sonnet-4-5"
+      "model": "anthropic/claude-sonnet-5"
     },
     "plan": {
       "model": "anthropic/claude-haiku-4-5"

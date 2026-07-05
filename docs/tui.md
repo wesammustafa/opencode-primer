@@ -45,7 +45,9 @@ Use the **leader key** (default `ctrl+x`) for session-level actions, and readlin
 | `Tab` | Cycle primary agents (`build` ↔ `plan` ↔ custom primaries) |
 | `shift+tab` | Cycle primary agents in reverse |
 | `Esc` | Cancel / dismiss |
-| `ctrl+c` / `ctrl+d` | Exit |
+| `ctrl+c` / `ctrl+x q` | Exit |
+
+> 🆕 v1.17.12 added **yolo mode** — auto-approve permission prompts from within the TUI. See the [permissions reference](reference/permissions.md) before turning it on.
 
 ### Inside the prompt box (readline / emacs-style)
 
@@ -188,3 +190,7 @@ You can drag files (including images, for multimodal models) into the TUI. Image
 | Costs rising | `opencode stats --days 7 --models` to find the offender |
 
 > 📚 Full TUI reference: [opencode.ai/docs/tui](https://opencode.ai/docs/tui) · keybinds at [opencode.ai/docs/keybinds](https://opencode.ai/docs/keybinds).
+
+---
+
+*Last reviewed: 2026-07-05.*

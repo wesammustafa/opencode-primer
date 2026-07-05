@@ -4,7 +4,7 @@
 
 ## When to use a command vs. a skill vs. an agent
 
-| | Custom Command | Agent Skill | Custom Agent |
+| | Custom Command | [Agent Skill](skills.md) | [Custom Agent](agents.md) |
 |---|---|---|---|
 | Invocation | **Manual** — user types `/<name>` | **Auto** — model loads when description matches | Mode-dependent (Tab or `@`) |
 | Best for | Repeatable user-driven prompts | Domain expertise the model should discover | A persistent role / tool surface |
@@ -18,7 +18,7 @@ A good rule of thumb: **commands run a workflow; skills teach the agent how to h
 ---
 description: Run tests with coverage and triage failures
 agent: build
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-5
 subtask: false
 ---
 
@@ -32,10 +32,12 @@ Arguments: $ARGUMENTS
 
 | Key | Type | Required | Purpose |
 |---|---|---|---|
-| `description` | string | yes | One-liner shown in the slash-command palette |
+| `description` | string | no (recommended) | One-liner shown in the slash-command palette |
 | `agent` | string | no | Which agent runs the command (`build`, `plan`, or custom) |
 | `model` | `provider/model-id` | no | Override model just for this command |
-| `subtask` | bool | no | If `true`, runs as a subagent (fresh, isolated context) |
+| `subtask` | bool | no | If `true`, runs the specified agent in an isolated child session |
+
+Only the template body is required — a command file with no frontmatter at all is still a valid command.
 
 ### Body placeholders
 
@@ -44,9 +46,11 @@ Arguments: $ARGUMENTS
 | `$ARGUMENTS` | Everything after the command name |
 | `$1`, `$2`, … | Positional args (whitespace-split) |
 | `@<path>` | File content (fuzzy resolved) |
-| `` `!<cmd>` `` | Shell stdout |
+| ``!`<cmd>` `` | Shell stdout |
 
 Placeholders are resolved **at invocation time**, so each run picks up fresh file content and shell output.
+
+Note the shell-injection syntax is bang **plus backticks** — ``!`cmd` ``. A bare `!cmd` only works as a TUI prompt prefix, not inside command templates.
 
 ## Where commands live
 
@@ -67,7 +71,7 @@ description: Run tests, triage failures
 agent: build
 ---
 
-!pnpm test --reporter=verbose
+!`pnpm test --reporter=verbose`
 
 If any tests failed above, open the relevant source files and propose a fix.
 Otherwise, summarize coverage and any flaky-looking tests.
@@ -81,7 +85,7 @@ description: Review changed files for the current branch
 agent: plan
 ---
 
-!git diff --name-only main...HEAD
+!`git diff --name-only main...HEAD`
 
 Review each changed file above for security, perf, and style. Suggest fixes
 with code snippets — but do not edit files. Prioritize anything under
@@ -129,7 +133,7 @@ Produce a report with findings and recommendations. Run as a subagent —
 your work won't pollute the main session's context.
 ```
 
-`subtask: true` runs the prompt as a `general` subagent in a child session, so the heavy reading and analysis stays separate from your main conversation.
+`subtask: true` runs the **specified agent** (here `build`) in an isolated child session, so the heavy reading and analysis stays separate from your main conversation.
 
 ## Patterns
 
@@ -168,3 +172,7 @@ OpenCode's built-in commands (`/init`, `/help`, `/share`, etc. — see [`referen
 > ⚠️ Override sparingly. If you replace `/help`, users in your repo lose access to the real help dialog. Pick a unique name like `/repo-help` instead.
 
 > 📚 Full Commands guide: [opencode.ai/docs/commands](https://opencode.ai/docs/commands).
+
+---
+
+*Last reviewed: 2026-07-05 · Canonical source: [opencode.ai/docs/commands](https://opencode.ai/docs/commands).*

@@ -31,5 +31,3 @@ export const AuditLog = async ({ directory }) => {
     },
   };
 };
-
-export default AuditLog;

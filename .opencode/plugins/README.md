@@ -33,7 +33,7 @@ Sample line:
 Three options:
 
 1. Move the plugin file out of `.opencode/plugins/`.
-2. Comment out the `export default` line.
+2. Comment out **all** exports in the file (every export is loaded, so a leftover one keeps the plugin alive) — or rename the file to a non-`.js`/`.ts` extension.
 3. Gate the body of the plugin on an env var:
 
    ```js

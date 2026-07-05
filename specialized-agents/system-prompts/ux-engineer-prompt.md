@@ -1,7 +1,7 @@
 ---
 description: UX engineer — bridges design and code. Builds design-system primitives, ensures component-level consistency, prototypes interactions.
 mode: all
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-5
 temperature: 0.2
 permission:
   edit: allow
