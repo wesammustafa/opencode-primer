@@ -22,9 +22,9 @@ Drive-by claims without sources will get held until they can be verified.
 
 ## Checklist
 
-- [ ] I read [`CONTRIBUTING.md`](../CONTRIBUTING.md)
+- [ ] I read [`CONTRIBUTING.md`](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know/blob/main/CONTRIBUTING.md)
 - [ ] Every factual claim cites a source (in the PR or inline in the doc)
 - [ ] In-page anchors and cross-doc links still resolve
 - [ ] No trailing whitespace; code fences have language tags
-- [ ] Emoji follow the [`AGENTS.md` policy](../AGENTS.md#style-conventions) (H2 navigation + callout prefixes only)
+- [ ] Emoji follow the [`AGENTS.md` policy](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know/blob/main/AGENTS.md#style-conventions) (H2 navigation + callout prefixes only)
 - [ ] If I touched the README, I updated the "Last reviewed" line at the bottom

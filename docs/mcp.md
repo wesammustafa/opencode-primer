@@ -53,7 +53,7 @@ OpenCode supports both, declared in `opencode.json` under `mcp`.
       "type": "local",
       "command": ["npx", "-y", "@playwright/mcp@latest"],
       "enabled": true,
-      "environment": { "BROWSER_TYPE": "chromium" },
+      "environment": { "PLAYWRIGHT_MCP_BROWSER": "chromium" },
       "timeout": 5000
     }
   }
@@ -66,6 +66,7 @@ OpenCode supports both, declared in `opencode.json` under `mcp`.
 | `command` | yes | Array form — argv-style |
 | `enabled` | no | Default `true`; set `false` to keep the entry but disable it |
 | `environment` | no | Extra env vars for the subprocess |
+| `cwd` | no | Working directory for the spawned subprocess (v1.17.4+) |
 | `timeout` | no | Tool-call timeout (ms). Default 5000. |
 
 ### Remote servers — HTTP
@@ -88,6 +89,8 @@ OpenCode supports both, declared in `opencode.json` under `mcp`.
 | `url` | yes | HTTPS endpoint |
 | `headers` | no | Custom HTTP headers (supports `{env:NAME}`) |
 | `oauth` | no | Pre-registered OAuth client credentials |
+| `enabled` | no | Default `true`; set `false` to keep the entry but disable it |
+| `timeout` | no | Tool-call timeout (ms). Default 5000. |
 
 ## OAuth
 
@@ -161,14 +164,23 @@ Disable noisy tools at the project level and re-enable them only for agents that
 
 ## Featured servers
 
-This repo has walkthroughs for several MCP servers in [`../mcp-servers/`](../mcp-servers/).
+### Walkthroughs in this repo
+
+Step-by-step setup guides live in [`../mcp-servers/`](../mcp-servers/):
+
+| Server | Adds | Type | Walkthrough |
+|---|---|---|---|
+| **Playwright** | Browser automation (DOM, network, screenshots, accessibility) | local | [`playwright.md`](../mcp-servers/playwright.md) |
+| **Context7** | Live, version-pinned library docs | remote | [`context7.md`](../mcp-servers/context7.md) |
+| **Sentry** | Errors, traces, releases | remote (OAuth) | [`sentry.md`](../mcp-servers/sentry.md) |
+| **Grep by Vercel** | Code search across GitHub | remote | [`grep.md`](../mcp-servers/grep.md) |
+
+> ⚠️ **Warning:** the `mcp.grep.app` endpoint has been flaky (returning 504 as of 2026-07-05). See the [walkthrough](../mcp-servers/grep.md) and Vercel's [announcement post](https://vercel.com/blog/grep-a-million-github-repositories-via-mcp) for details.
+
+### Other notable servers
 
 | Server | Adds | Type | Source |
 |---|---|---|---|
-| **Playwright** | Browser automation (DOM, network, screenshots, accessibility) | local | [`@playwright/mcp`](https://github.com/microsoft/playwright-mcp) |
-| **Context7** | Live, version-pinned library docs | remote | [`upstash/context7`](https://github.com/upstash/context7) |
-| **Sentry** | Errors, traces, releases | remote (OAuth) | [`mcp.sentry.dev`](https://mcp.sentry.dev/) |
-| **Grep by Vercel** | Code search across GitHub | remote | [`mcp.grep.app`](https://mcp.grep.app/) |
 | **Chrome DevTools** | Drive a real Chrome instance | local | [`ChromeDevTools/chrome-devtools-mcp`](https://github.com/ChromeDevTools/chrome-devtools-mcp) |
 | **Memory / mem0** | Long-term cross-session memory | local/remote | [`mem0ai/mem0`](https://github.com/mem0ai/mem0) |
 | **Tavily** | Web search + extraction for agents | remote | [`tavily-ai/tavily-mcp`](https://github.com/tavily-ai/tavily-mcp) |
@@ -183,6 +195,10 @@ use playwright to open https://example.com and screenshot the navbar
 look up the React Router v7 changelog (use context7)
 search the codebase for `parseToken` calls with grep
 ```
+
+## MCP resources
+
+> 🆕 As of [v1.17.10](https://github.com/anomalyco/opencode/releases/tag/v1.17.10), OpenCode exposes MCP **resources**, not just tools: it can list a server's resource templates and read individual resources through dedicated tools. Instructions published by an MCP server are also appended to the session context automatically.
 
 ## Discovery — the MCP Registry
 
@@ -199,3 +215,7 @@ The [Official MCP Registry](https://registry.modelcontextprotocol.io/) (live sin
 | Connection times out | Bump `timeout` (default 5000ms) |
 
 > 📚 Full MCP guide: [opencode.ai/docs/mcp-servers](https://opencode.ai/docs/mcp-servers) · Registry: [registry.modelcontextprotocol.io](https://registry.modelcontextprotocol.io/) · Protocol spec: [modelcontextprotocol.io](https://modelcontextprotocol.io/).
+
+---
+
+*Last reviewed: 2026-07-05 · Canonical source: [opencode.ai/docs/mcp-servers](https://opencode.ai/docs/mcp-servers).*

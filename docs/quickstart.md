@@ -77,25 +77,29 @@ Two character prefixes that change how you talk to OpenCode in prompts:
 | Prefix | Purpose | Example |
 |---|---|---|
 | `@<path>` | Attach a file's content (fuzzy resolved) | `look at @src/api/auth.ts` |
-| `!<cmd>` | Run shell, inject output | `!git diff` then ask Claude about it |
+| `!<cmd>` | Run shell, inject output | `!git diff` then ask the model about it |
 
 ## What next?
 
 - **[Custom Commands](commands.md)** — turn prompts into `/<name>` shortcuts (~3 min)
 - **[OpenCode Zen](zen.md)** — model picks, pricing, and BYOK
 - **[Agents](agents.md)** — custom build/plan variants and subagents
+- **[Agent Skills](skills.md)** — workflows the agent discovers and loads on its own
+- **[Plugins](plugins.md)** — run code automatically on lifecycle events
 - **[MCP](mcp.md)** — plug in external tools (browsers, DBs, search)
 
 ## Common first-day issues
 
 **`opencode: command not found`**
 
-Add the install path to your shell config:
+The install script puts the binary in `~/.opencode/bin`. Add it to your shell config:
 
 ```bash
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc   # or ~/.bashrc
+echo 'export PATH="$HOME/.opencode/bin:$PATH"' >> ~/.zshrc   # or ~/.bashrc
 source ~/.zshrc
 ```
+
+(If you installed via `npm i -g`, the binary lands in npm's global bin directory instead — usually already on your `PATH`.)
 
 **Auth fails with "no provider configured"**
 
@@ -105,9 +109,9 @@ Run `opencode auth login` and pick a provider. Re-run `/connect` from inside the
 
 ```bash
 opencode upgrade            # latest
-opencode upgrade v1.16.0    # specific version
+opencode upgrade v1.17.13   # specific version
 ```
 
 ---
 
-*Last reviewed: 2026-06-08 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*
+*Last reviewed: 2026-07-05 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*

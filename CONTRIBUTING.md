@@ -62,19 +62,24 @@ A good system prompt has:
 
 Add the matching short description under [`specialized-agents/descriptions/`](specialized-agents/descriptions/) and update the table in [`specialized-agents/README.md`](specialized-agents/README.md).
 
-## Local check
+## Local checks
 
-There's no build system to run, but a quick mental checklist before submitting:
+CI (`.github/workflows/lint-docs.yml`) runs markdownlint, a link check, and a spell check on every PR. Run the same checks locally before submitting:
 
-- [ ] All links resolve (in-page anchors and external URLs)
-- [ ] Code fences have language tags
-- [ ] No trailing whitespace
-- [ ] No emoji clutter
-- [ ] Facts cite a source
+```bash
+# Markdown lint (same rules as CI)
+npx markdownlint-cli2 "**/*.md"
+
+# Spell check (same ignore list as CI)
+codespell --ignore-words .github/codespell-ignore.txt --skip "./LICENSE,./.git,./node_modules"
+
+# Link check (same config as CI) — run per changed file
+npx markdown-link-check -c .github/markdown-link-check.json README.md
+```
 
 ## Questions
 
-Open a [GitHub Discussion](../../discussions) or an [issue](../../issues). Drive-by PRs are welcome too — we'll suggest changes in review.
+Open a [GitHub Discussion](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know/discussions) or an [issue](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know/issues). Drive-by PRs are welcome too — we'll suggest changes in review.
 
 ---
 

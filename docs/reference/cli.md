@@ -41,6 +41,7 @@ opencode [project] [flags]
 | `--port`, `--hostname` | Bind the underlying server |
 | `--mdns`, `--mdns-domain` | mDNS discovery |
 | `--cors <origins>` | Additional browser origins for CORS |
+| `--mini` | Start the TUI in mini mode *(v1.17.10+, per the [release notes](https://github.com/anomalyco/opencode/releases/tag/v1.17.10))* |
 
 ---
 
@@ -74,7 +75,7 @@ opencode run --agent plan --model anthropic/claude-haiku-4-5 "audit src/ for mis
 | `--replay` | Interactively replay the run as it streams *(v1.16+)* |
 | `--replay-limit <n>` | How much recent history to show when replaying |
 | `--command <name>` | Run a saved command |
-| `--dangerously-skip-permissions` | Auto-approve everything that isn't explicitly denied. **CI only.** |
+| `--auto` | Auto-approve everything that isn't explicitly denied. **CI only.** |
 
 ---
 
@@ -285,7 +286,7 @@ Update OpenCode to the latest or a specific version.
 
 ```bash
 opencode upgrade
-opencode upgrade v1.16.0
+opencode upgrade v1.17.13
 opencode upgrade --method brew    # force the install method
 ```
 
@@ -311,3 +312,7 @@ opencode uninstall [--keep-config] [--keep-data] [--dry-run] [--force]
 | `--force`, `-f` | Skip confirmation |
 
 > 📚 Full live CLI reference: [opencode.ai/docs/cli](https://opencode.ai/docs/cli).
+
+---
+
+*Last reviewed: 2026-07-05 · Canonical source: [opencode.ai/docs/cli](https://opencode.ai/docs/cli).*

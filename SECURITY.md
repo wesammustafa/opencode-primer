@@ -17,7 +17,7 @@ If you find a security issue in:
 | Where | Report to |
 |---|---|
 | **OpenCode itself** (the tool) | Open a [security advisory on `anomalyco/opencode`](https://github.com/anomalyco/opencode/security/advisories/new) |
-| **The example plugins in this repo** | Open a confidential issue or contact the maintainer directly via GitHub |
+| **The example plugins in this repo** | Use GitHub's [private vulnerability reporting](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know/security/advisories/new) ("Report a vulnerability" under the repo's Security tab) |
 | **A factual error in documentation** that could mislead a user into a vulnerable configuration | Open a normal issue or PR |
 
 Please **don't** disclose security issues publicly until they've been addressed. We'll acknowledge receipt within 7 days and aim to resolve within 30.

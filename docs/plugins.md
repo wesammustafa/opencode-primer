@@ -57,7 +57,7 @@ opencode plugin --global opencode-wakatime
 
 ## Plugin API
 
-A plugin is a default-export async function returning an object of **hooks**. There are two shapes: typed hooks like `tool.execute.before` that receive `(input, output)`, and a generic `event` handler that receives the lifecycle event stream:
+A plugin is an exported async function returning an object of **hooks** — named exports work fine, and every exported function in the file is loaded. There are two shapes: typed hooks like `tool.execute.before` that receive `(input, output)`, and a generic `event` handler that receives the lifecycle event stream:
 
 ```javascript
 // .opencode/plugins/notify-on-idle.js
@@ -95,6 +95,10 @@ Verified against the [Plugins doc](https://opencode.ai/docs/plugins):
 | `tool.execute.before` | Before a tool runs | `input.tool`; `output.args` (mutable) — `throw` to block |
 | `tool.execute.after` | After a tool completes | `input.tool`, `input.args`; `output.title` / `output.output` |
 | `shell.env` | Resolving shell environment | `input.cwd`; `output.env` (mutable) |
+
+There's also a `tool` key for registering **custom tool definitions** from a plugin — the agent sees them alongside the built-in tools.
+
+> 🆕 [v1.17.10](https://github.com/anomalyco/opencode/releases/tag/v1.17.10) added namespaced plugin hook APIs and a V2 plugin API supporting both Effect and Promise plugins.
 
 **Event stream** — `event: async ({ event }) => { if (event.type === …) }`:
 
@@ -231,3 +235,7 @@ opencode debug                                # debug subcommands
 Plugin errors show up in the TUI; full traces appear in OpenCode's log (default at `~/.local/share/opencode/log/`, or stderr with `--print-logs`).
 
 > 📚 Full Plugins guide and event reference: [opencode.ai/docs/plugins](https://opencode.ai/docs/plugins).
+
+---
+
+*Last reviewed: 2026-07-05 · Canonical source: [opencode.ai/docs/plugins](https://opencode.ai/docs/plugins).*

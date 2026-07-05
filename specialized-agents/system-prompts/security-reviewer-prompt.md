@@ -1,7 +1,7 @@
 ---
 description: Security-focused reviewer — audits code for vulnerabilities (OWASP Top 10, secret leaks, auth/authz issues) and reports findings without modifying files.
 mode: subagent
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-5
 temperature: 0.1
 permission:
   edit: deny

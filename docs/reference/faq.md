@@ -10,6 +10,15 @@ The software is free and open-source (MIT). You pay for whichever LLM provider y
 - **Direct providers** — your own Anthropic/OpenAI/Google/etc. account; pricing is whatever they charge.
 - **Local models** — free if you're running Ollama/LM Studio/llama.cpp on your own hardware.
 
+### Q: What's the difference between OpenCode Zen and OpenCode Go?
+
+Both are hosted model access from the OpenCode team — the difference is billing:
+
+- **Zen** — pay-as-you-go, per-token gateway across the full curated lineup (Anthropic, OpenAI, Google, open models). You pay for exactly what you use.
+- **Go** — a flat **$10/month subscription ($5 the first month)** to a curated set of hosted open models. Usage limits apply ($12 per 5 hours, $30/week, $60/month equivalent); past the limits it can fall back to a Zen balance.
+
+Reach for Go when you want a predictable monthly bill on open models; reach for Zen when you want per-token access to everything. See [opencode.ai/docs/go](https://opencode.ai/docs/go/) and [`../zen.md`](../zen.md).
+
 ### Q: What's the difference between OpenCode and Claude Code?
 
 Briefly: OpenCode is **provider-agnostic and open source**; Claude Code is **Anthropic-only and proprietary**.
@@ -20,9 +29,13 @@ Briefly: OpenCode is **provider-agnostic and open source**; Claude Code is **Ant
 | Models | Any provider | Anthropic only |
 | Pricing | Pay-as-you-go or BYOK | Subscription |
 | Config | `opencode.json` + `.opencode/` | `.claude/settings.json` + `.claude/` |
-| Hooks | JS/TS plugins | Python scripts |
+| Hooks | JS/TS plugins | Shell commands (often scripts) |
 
 OpenCode reads `CLAUDE.md` and `.claude/skills/` as fallbacks for easier migration.
+
+### Q: Can I sign in with my Claude Pro/Max subscription?
+
+No. The built-in Anthropic subscription OAuth (the `opencode-anthropic-auth` plugin) was removed on 2026-03-19 at Anthropic's legal request ([PR #18186](https://github.com/anomalyco/opencode/pull/18186)). Anthropic models still work in OpenCode — use an Anthropic **API key** (the `anthropic` provider with `apiKey`) or route through **Zen** (`opencode/claude-…` models).
 
 ### Q: Does OpenCode work offline?
 
@@ -34,12 +47,12 @@ Honest answer: **try a few on your actual workload.** Benchmarks generalize poor
 
 | Task | Reasonable options |
 |---|---|
-| Day-to-day coding | Claude Sonnet (4.5 direct or 4.6 via Zen), GPT-5.4, Gemini 3.1 Pro |
-| Complex multi-file refactors | Claude Opus 4.7, GPT-5.5, GPT-5.5 Pro |
+| Day-to-day coding | Claude Sonnet 5 (direct or `opencode/claude-sonnet-5`, $2/$10), GPT-5.4, Gemini 3.1 Pro |
+| Complex multi-file refactors | Claude Fable 5, Claude Opus 4.8, GPT-5.5, GPT-5.5 Pro |
 | Fast, lightweight tasks | Claude Haiku 4.5, GPT-5.4 Mini, GPT-5.4 Nano, GLM/Kimi |
-| Long-context (>200K tokens) | GPT-5.5 (272K), Claude Sonnet 4.5/4 (>200K tier) |
-| Budget-friendly | Qwen3.6 Plus, GPT-5.4 Nano, Qwen3.5 Plus, MiniMax M2.7 |
-| Local / offline | Ollama or LM Studio with a coding-tuned model that fits your hardware (Qwen 2.5 Coder, DeepSeek Coder, CodeLlama — quality varies hugely with model size and quantization) |
+| Long-context (>200K tokens) | GPT-5.5 (272K), Gemini 3.1 Pro (>200K tier) |
+| Budget-friendly | Qwen3.7 Plus, GPT-5.4 Nano, MiniMax M3 |
+| Local / offline | Ollama or LM Studio with a coding-tuned model that fits your hardware (a current Qwen coder or DeepSeek release — quality varies hugely with model size and quantization) |
 
 Use a cheaper model for `explore`/`scout` subagents — they read a lot but don't need to write. See [`../zen.md`](../zen.md) for full pricing and the cheap-explorer / strong-executor pattern.
 
@@ -117,7 +130,7 @@ curl -fsSL https://opencode.ai/install | bash
 opencode run --agent plan --format json "audit src/ for security issues" > findings.json
 ```
 
-For unattended runs, `--dangerously-skip-permissions` auto-approves anything that isn't explicitly denied — only after auditing what your prompt and tools can do.
+For unattended runs, `--auto` auto-approves anything that isn't explicitly denied — only after auditing what your prompt and tools can do.
 
 ### Q: Can I attach a remote OpenCode server?
 
@@ -152,7 +165,7 @@ See [`../migration.md`](../migration.md) for the full guide. Quick version:
 - Rename `CLAUDE.md` → `AGENTS.md`
 - Move `.claude/commands/` → `.opencode/commands/`
 - Move `.claude/skills/` → `.opencode/skills/`
-- Rewrite Python hooks as JS/TS plugins in `.opencode/plugins/`
+- Rewrite shell-command hooks as JS/TS plugins in `.opencode/plugins/`
 - Update agent frontmatter — different field names
 
 ### Q: Do my Cursor rules work?
@@ -201,7 +214,7 @@ Three layers:
 Add the install path to your shell:
 
 ```bash
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+echo 'export PATH="$HOME/.opencode/bin:$PATH"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
@@ -249,4 +262,4 @@ export EDITOR='nvim'                # Neovim
 
 ---
 
-*Last reviewed: 2026-06-08 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*
+*Last reviewed: 2026-07-05 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*

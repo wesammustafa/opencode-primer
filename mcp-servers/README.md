@@ -23,24 +23,7 @@ If everything you need is already in local files, you probably don't need MCP ye
 
 ## Cost of adding a server
 
-MCP tools land in the model's tool surface every turn. A heavy server (say, a full GitHub integration with 40 tools) can eat 10K+ tokens of context **just to describe the available tools**. Don't add a server you won't use, and disable tools you don't need with the `tools` map:
-
-```json
-{
-  "tools": {
-    "github_*": false,
-    "slack_*": false
-  },
-  "agent": {
-    "issue-triager": {
-      "tools": {
-        "github_get_issue": true,
-        "github_list_issues": true
-      }
-    }
-  }
-}
-```
+Every server's tool descriptions land in the model's context on every turn — a heavy server can cost thousands of tokens before you call anything. See the [token budget warning in `docs/mcp.md`](../docs/mcp.md#token-budget-warning) for the details and the `tools`-map pattern for disabling tools you don't need.
 
 ## Discovery
 
@@ -58,7 +41,7 @@ For new servers, also worth checking:
 | Server won't connect | `opencode mcp debug <name>` |
 | OAuth flow stuck | `opencode mcp logout <name>` then `opencode mcp auth <name>` |
 | Tools missing in the model surface | Check the `tools` map and the agent's `tools` override |
-| Local server fails on Windows | Make sure the `command` array uses npx with `-y`, and that Node 18+ is on PATH |
+| Local server fails on Windows | Make sure the `command` array uses npx with `-y`, and that Node 20+ (current LTS) is on PATH |
 | Timeouts | Bump `timeout` (default 5000ms) under the server's config |
 
 > 📚 Full MCP guide in OpenCode: [opencode.ai/docs/mcp-servers](https://opencode.ai/docs/mcp-servers).

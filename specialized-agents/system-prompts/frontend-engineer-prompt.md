@@ -1,7 +1,7 @@
 ---
 description: Senior frontend engineer — React, TypeScript, Tailwind. Component-first, accessibility-aware, tests visual behavior with Vitest + Testing Library.
 mode: all
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-5
 temperature: 0.2
 permission:
   edit: allow

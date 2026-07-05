@@ -13,7 +13,9 @@ A practical, opinionated guide to using [OpenCode](https://opencode.ai) — READ
 ├── README.md                       # Main guide (the centerpiece)
 ├── AGENTS.md                       # This file
 ├── CONTRIBUTING.md                 # How to contribute
+├── SECURITY.md · CODE_OF_CONDUCT.md
 ├── LICENSE                         # MIT
+├── opencode.json · tui.json        # Example configs with safe defaults
 ├── docs/
 │   ├── quickstart.md               # 5-minute getting-started
 │   ├── zen.md                      # Zen model gateway details
@@ -25,22 +27,24 @@ A practical, opinionated guide to using [OpenCode](https://opencode.ai) — READ
 │   ├── mcp.md                      # MCP integration
 │   ├── workflows.md                # Real-world recipes
 │   ├── migration.md                # Migration from Claude Code / Cursor
-│   ├── faq.md                      # FAQ + troubleshooting
 │   └── reference/
 │       ├── cli.md                  # All CLI commands
 │       ├── slash-commands.md       # All TUI slash commands
 │       ├── permissions.md          # Permission model
 │       ├── changelog.md            # OpenCode releases
+│       ├── faq.md                  # FAQ + troubleshooting
 │       └── further-reading.md      # External resources
 ├── .opencode/
 │   ├── agents/                     # Example custom agents
 │   ├── commands/                   # Example custom commands
+│   ├── plugins/                    # Example plugins (audit log, secret blocker)
 │   └── skills/                     # Example agent skills
+├── .github/                        # CI (lint-docs.yml), issue/PR templates
 ├── mcp-servers/                    # MCP server walkthroughs
 ├── specialized-agents/             # Drop-in specialist prompts
-│   ├── system-prompts/             # System prompts (10 roles)
+│   ├── system-prompts/             # System prompts (7 roles)
 │   └── descriptions/               # Role descriptions
-└── Images/                         # Diagrams and screenshots
+└── Images/                         # Banner, diagrams, screenshots
 ```
 
 ## Editing rules
@@ -93,14 +97,17 @@ A practical, opinionated guide to using [OpenCode](https://opencode.ai) — READ
 
 ## Commands
 
-This repo has no build/test stack — it's pure markdown. Useful housekeeping:
+No build step, but CI (`.github/workflows/lint-docs.yml`) lints every push/PR to `main`. Run the same checks locally before committing:
 
 ```bash
-# Spell-check (if installed)
-codespell README.md docs/
+# Markdown lint (config: .markdownlint.json)
+npx markdownlint-cli2 "**/*.md"
 
-# Find broken internal links
-grep -nE '\]\(#[a-z0-9-]+\)' README.md docs/*.md
+# Spell-check (ignore list: .github/codespell-ignore.txt)
+codespell --ignore-words=.github/codespell-ignore.txt --skip="./LICENSE,./.git,./node_modules" .
+
+# Link check (config: .github/markdown-link-check.json)
+npx markdown-link-check -c .github/markdown-link-check.json README.md
 ```
 
 ## How OpenCode should work in this repo

@@ -44,7 +44,7 @@ Goal: isolate context-heavy research from your main session.
 [build] > /pr
 ```
 
-`@explore` and `@scout` run in **child sessions** — separate from your main session. Their long file reads and search output don't bloat the parent conversation. Navigate between parent and children with the session-child keybinds.
+`@explore` and `@scout` run in **child sessions** — separate from your main session. Their long file reads and search output don't bloat the parent conversation. Navigate between parent and child sessions with the [keybinds](https://opencode.ai/docs/keybinds) for session navigation.
 
 ## 3. Multi-agent review
 
@@ -157,7 +157,7 @@ opencode-review:
 
 Same idea on Buildkite, CircleCI, Jenkins — install the CLI, set the env var, run a prompt, post the result wherever you post things.
 
-`--dangerously-skip-permissions` is available for fully unattended runs — use it with care.
+`--auto` is available for fully unattended runs — it auto-approves everything not explicitly denied, so use it with care.
 
 > 🔧 **Native GitHub path.** Beyond the raw `curl | bash` recipe, OpenCode ships first-class GitHub commands: `opencode github install` wires up the GitHub App and workflow so `/opencode` (or `/oc`) mentions trigger the agent on issues and PRs, and `opencode pr <number>` checks out a PR branch locally and opens a session. As of v1.16, the GitHub extension refuses to commit without an existing git author identity — in Actions the runner already configures `user.name`/`user.email`, so the comment-only recipes above are unaffected.
 
@@ -174,7 +174,7 @@ Goal: implement UI to match a mock.
         > compare the new screenshot to the mock and refine
 ```
 
-Two-three iteration rounds usually produces a close visual match. Multimodal models (`opencode/gemini-3.1-pro`, `opencode/claude-sonnet-4-6`) handle the comparison well.
+Two to three iteration rounds usually produce a close visual match. Multimodal models (`opencode/gemini-3.1-pro`, `opencode/claude-sonnet-4-6`) handle the comparison well.
 
 ## Cross-cutting tips
 
@@ -186,4 +186,4 @@ Two-three iteration rounds usually produces a close visual match. Multimodal mod
 
 ---
 
-*Last reviewed: 2026-06-08 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*
+*Last reviewed: 2026-07-05 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*

@@ -90,4 +90,6 @@ patterns they share. Skip the "hello world" projects.
 ## Resources
 
 - [grep.app](https://grep.app/) — same backing service, web UI
-- [Vercel's announcement](https://vercel.com/blog/) — official Vercel posts about Grep
+- [Vercel's announcement](https://vercel.com/blog/grep-a-million-github-repositories-via-mcp) — Grep MCP launch post
+
+> ⚠️ **Warning:** `mcp.grep.app` was intermittently unreachable when last checked (2026-07-05). If `opencode mcp list` shows the server failing to connect, that may be why — try again later.

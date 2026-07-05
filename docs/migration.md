@@ -35,10 +35,14 @@ If those matter more to you than multi-provider flexibility or full open source,
 | `CLAUDE.md` for project rules | `AGENTS.md` (falls back to `CLAUDE.md` for compatibility) |
 | `.claude/commands/<name>.md` | `.opencode/commands/<name>.md` |
 | `.claude/skills/<name>/SKILL.md` | `.opencode/skills/<name>/SKILL.md` *(but also reads from `.claude/skills/`)* |
-| `.claude/settings.json` hooks (Python scripts on lifecycle events) | `.opencode/plugins/<name>.{js,ts}` (JS/TS modules on events) |
+| `.claude/settings.json` hooks (shell commands on lifecycle events) | `.opencode/plugins/<name>.{js,ts}` (JS/TS modules on events) |
 | `.claude/agents/<name>.md` | `.opencode/agents/<name>.md` (similar markdown+YAML format, different fields) |
 | `claude` CLI | `opencode` CLI |
 | `/auth login` | `opencode auth login` or `/connect` |
+
+### Note on Claude Pro/Max subscriptions
+
+Since 2026-03-19, OpenCode no longer ships built-in Claude Pro/Max subscription OAuth — it was removed at Anthropic's legal request ([PR #18186](https://github.com/anomalyco/opencode/pull/18186)). Your subscription still works in Claude Code, but it can't authenticate OpenCode. To use Anthropic models in OpenCode, bring an Anthropic API key (the `anthropic` provider) or go through [Zen](zen.md).
 
 ### Migration steps
 
@@ -53,7 +57,7 @@ opencode auth login         # pick a provider (Anthropic, Zen, OpenAI, etc.)
 git mv .claude/commands     .opencode/commands         # if you had commands
 git mv .claude/skills       .opencode/skills           # if you had skills
 git mv .claude/agents       .opencode/agents           # but see agent format note below
-mv CLAUDE.md AGENTS.md       # rename — OpenCode prefers AGENTS.md
+git mv CLAUDE.md AGENTS.md   # rename — OpenCode prefers AGENTS.md
 
 # 4. Disable the Claude fallback once migrated
 export OPENCODE_DISABLE_CLAUDE_CODE=1
@@ -81,7 +85,7 @@ OpenCode uses:
 ---
 description: ...
 mode: subagent
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-5
 permission:
   edit: deny
   bash: ask
@@ -97,7 +101,7 @@ Key changes:
 
 ### Hooks → Plugins
 
-Claude Code uses Python scripts triggered by `.claude/settings.json`. OpenCode uses JS/TS modules in `.opencode/plugins/`. Behaviorally similar, syntactically different.
+Claude Code hooks are shell commands configured in `settings.json` (often scripts). OpenCode uses JS/TS modules in `.opencode/plugins/`. Behaviorally similar, syntactically different.
 
 Claude Code `pre_tool_use.py`:
 
@@ -228,4 +232,4 @@ Migration is mostly muscle-memory adjustment, not config porting.
 
 ---
 
-*Last reviewed: 2026-06-08 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*
+*Last reviewed: 2026-07-05 · Canonical source: [opencode.ai/docs](https://opencode.ai/docs/).*

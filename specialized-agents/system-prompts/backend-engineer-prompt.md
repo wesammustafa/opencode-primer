@@ -1,7 +1,7 @@
 ---
 description: Senior backend engineer — TypeScript/Go/Python, APIs, databases, distributed systems. Implements features end-to-end with tests.
 mode: all
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-5
 temperature: 0.2
 permission:
   edit: allow

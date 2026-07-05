@@ -1,11 +1,14 @@
+<img src="Images/banner.svg" alt="OpenCode: Everything You Need to Know — the community field guide to the open-source AI coding agent" width="100%">
+
 # OpenCode: Everything You Need to Know
 
-A practical guide to [OpenCode](https://opencode.ai) — from your first prompt to custom agents, skills, plugins, and MCP integrations. Built around clear mental models and real examples, not marketing.
+The community field guide to [OpenCode](https://opencode.ai) — from your first prompt to custom agents, skills, plugins, and MCP integrations. Clear mental models, real examples, every fact verified against the current release.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
-[![OpenCode v1.16.2](https://img.shields.io/badge/OpenCode-v1.16.2-7C3AED?style=flat-square)](https://github.com/anomalyco/opencode/releases)
-[![Last reviewed](https://img.shields.io/badge/last%20reviewed-June%202026-22c55e?style=flat-square)](#updates--deprecations)
+[![OpenCode v1.17.13](https://img.shields.io/badge/OpenCode-v1.17.13-7C3AED?style=flat-square)](https://github.com/anomalyco/opencode/releases)
+[![Last reviewed](https://img.shields.io/badge/last%20reviewed-July%202026-22c55e?style=flat-square)](#updates--deprecations)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4?style=flat-square)](CONTRIBUTING.md)
+[![GitHub stars](https://img.shields.io/github/stars/wesammustafa/OpenCode-Everything-You-Need-to-Know?style=flat-square&color=eab308)](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know/stargazers)
 
 ```bash
 curl -fsSL https://opencode.ai/install | bash
@@ -14,6 +17,8 @@ curl -fsSL https://opencode.ai/install | bash
 **Who this is for:** Developers using (or about to use) [OpenCode](https://opencode.ai). Beginners get a guided path; power users get depth on Custom Commands, Skills, Plugins, MCP, and Agents.
 
 > ⚖️ **Not affiliated with the OpenCode team.** This is a community-maintained guide. For canonical sources, check [opencode.ai/docs](https://opencode.ai/docs/) and [github.com/anomalyco/opencode](https://github.com/anomalyco/opencode).
+
+> 💡 **Pro Tip:** If this guide saves you an afternoon, a ⭐ helps other developers find it.
 
 ---
 
@@ -44,7 +49,7 @@ curl -fsSL https://opencode.ai/install | bash
 
 ### What is OpenCode?
 
-OpenCode is an open-source AI coding agent — a terminal app (TUI), desktop app, and IDE extension that reads your repo, runs commands, edits files, and talks to any LLM you point it at. Maintained by [Anomaly](https://github.com/anomalyco), MIT-licensed.
+OpenCode is an open-source AI coding agent — a terminal app (TUI), desktop app, and IDE extension that reads your repo, runs commands, edits files, and talks to any LLM you point it at. Maintained by [Anomaly](https://github.com/anomalyco), MIT-licensed — and as of July 2026 the [most-starred coding agent on GitHub](https://github.com/anomalyco/opencode) (182K+ stars), with [8M monthly users by the founder's count](https://betakit.com/qa-opencodes-founder-on-how-the-ai-agent-went-from-zero-to-8-million-users-in-a-year/).
 
 **Three things it does that a chat UI can't:**
 
@@ -66,7 +71,7 @@ opencode run "fix the failing test in src/api.test.ts"
 opencode serve --port 4096                     # headless server
 ```
 
-> OpenCode sits in the same space as Claude Code, Cursor, and Aider — same problem, different trade-offs. None is universally better; pick the one whose model, surface, and ecosystem fit your workflow.
+> OpenCode sits in the same space as Claude Code, Codex CLI, and Cursor — same problem, different trade-offs. None is universally better; pick the one whose model, surface, and ecosystem fit your workflow. (The field consolidated hard in 2026: Gemini CLI was [retired in June](https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/) in favor of the closed-source Antigravity CLI, and Roo Code shut down in May.)
 
 > ⚠️ **AI-coding caveat:** OpenCode (like every coding agent) can produce wrong code, miss edge cases, hallucinate APIs, and over-apply patterns. **You're still the reviewer.** Read diffs before accepting, run tests, and don't auto-approve destructive operations on code you care about.
 
@@ -76,7 +81,7 @@ opencode serve --port 4096                     # headless server
 
 | Limitation | Detail |
 |---|---|
-| **No inline editor completion** | OpenCode is a conversational agent, not Copilot-style autocomplete. For ghost-text-while-you-type, reach for [Copilot](https://github.com/features/copilot), [Cursor Tab](https://cursor.sh/), [Codeium](https://codeium.com/), or [Supermaven](https://supermaven.com/) — or alongside. |
+| **No inline editor completion** | OpenCode is a conversational agent, not Copilot-style autocomplete. For ghost-text-while-you-type, reach for [Copilot](https://github.com/features/copilot), [Cursor Tab](https://cursor.com/), [Windsurf (formerly Codeium)](https://windsurf.com/), or [Supermaven](https://supermaven.com/) — or alongside. |
 | **Quality depends on the underlying model** | OpenCode doesn't replace the LLM's reasoning. If your task fails on Sonnet, switching to OpenCode won't fix it. |
 | **Provider-agnostic ≠ provider-equivalent** | Some models tool-call better than others. A slug swap isn't free. |
 | **TUI on slow SSH / minimal terminals** | The TUI uses truecolor and complex layouts. Degrades over slow connections. `opencode serve` + `attach` or `opencode run` are better for those cases. |
@@ -87,10 +92,10 @@ opencode serve --port 4096                     # headless server
 
 **When something else fits better:**
 
-- Want a polished single-vendor product → **Claude Code** or **Cursor**.
+- Want a polished single-vendor product → **Claude Code** or **Codex CLI**.
 - Deeply embedded in VS Code workflow → **Cursor** or **GitHub Copilot**.
-- Want a small Python tool you can read end-to-end → **[Aider](https://aider.chat/)**.
-- Don't want to manage provider keys → a managed hosted product.
+- Want a small Python tool you can read end-to-end → **[Aider](https://aider.chat/)** (note: development has slowed markedly in 2026).
+- Don't want to manage provider keys → a managed hosted product, or [OpenCode Go](#opencode-go).
 
 > OpenCode's trade-off: flexibility and openness over polish and single-vendor integration. Worth it for many use cases; not all.
 
@@ -115,8 +120,8 @@ scoop install opencode              # Windows
 choco install opencode              # Windows
 sudo pacman -S opencode             # Arch
 paru -S opencode-bin                # Arch (AUR)
-mise use -g github:anomalyco/opencode  # mise users
-nix run nixpkgs#opencode            # Nix
+mise use -g github:anomalyco/opencode      # mise users
+docker run -it --rm ghcr.io/anomalyco/opencode  # Docker
 ```
 
 A desktop app for macOS / Windows / Linux is in beta at [opencode.ai/download](https://opencode.ai/download).
@@ -170,22 +175,25 @@ This repo's own [`.opencode/`](.opencode/) directory is a working example:
 
 ### Models & Providers
 
-OpenCode is **provider-agnostic**. Three ways to plug in a model — pick whichever fits your accounts, budget, and privacy posture:
+OpenCode is **provider-agnostic**. Four ways to plug in a model — pick whichever fits your accounts, budget, and privacy posture:
 
 | | Best for | Trade-off |
 |---|---|---|
 | **Direct providers** (Anthropic, OpenAI, Google, Groq, OpenRouter, AWS Bedrock, Azure) | You already have credits with a provider | Manage one key per provider |
 | **[OpenCode Zen](#opencode-zen)** — pay-as-you-go gateway | One key, curated lineup, no commitment | Pricier per token than going direct in some cases |
+| **[OpenCode Go](#opencode-go)** — flat-rate subscription | Predictable $10/month, zero key management | Curated open models only, usage limits |
 | **Local models** (Ollama, LM Studio, llama.cpp) | Offline, strict data-residency, hobbyist | Quality varies hugely with model and hardware |
 
 There's no universally right answer — pick what fits.
+
+> ⚠️ **Warning:** You can no longer sign in with a Claude Pro/Max subscription. OpenCode removed its built-in Anthropic OAuth login in March 2026 at Anthropic's legal request ([PR #18186](https://github.com/anomalyco/opencode/pull/18186)). Anthropic models still work fine — via an **API key** in the provider config below, or via **Zen**.
 
 #### Direct provider config
 
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "anthropic/claude-sonnet-4-5",
+  "model": "anthropic/claude-sonnet-5",
   "provider": {
     "anthropic": { "options": { "apiKey": "{env:ANTHROPIC_API_KEY}" } },
     "openai":    { "options": { "apiKey": "{file:~/.secrets/openai-key}" } }
@@ -201,7 +209,7 @@ Per-agent model override:
 {
   "agent": {
     "plan":         { "model": "anthropic/claude-haiku-4-5" },
-    "deep-thinker": { "model": "openai/gpt-5", "options": { "reasoningEffort": "high" } }
+    "deep-thinker": { "model": "openai/gpt-5.5", "options": { "reasoningEffort": "high" } }
   }
 }
 ```
@@ -217,23 +225,30 @@ A curated, pay-as-you-go AI gateway. The OpenCode team tests and tunes models fo
 /models             # browse the lineup
 ```
 
-**Pricing snapshot** *(verified 2026-06-08; check [opencode.ai/docs/zen](https://opencode.ai/docs/zen) for current)*
+**Pricing snapshot** *(verified 2026-07-05; check [opencode.ai/docs/zen](https://opencode.ai/docs/zen) for current)*
 
 | Model ID | Input / Output (per MTok) | Reach for it when… |
 |---|---|---|
+| `opencode/claude-fable-5` | $10 / $50 | Absolute frontier — the hardest reasoning problems |
 | `opencode/claude-opus-4-8` | $5 / $25 | Flagship reasoning — complex refactors, large multi-file work |
-| `opencode/claude-sonnet-4-6` | $3 / $15 | Balanced everyday coding |
+| `opencode/claude-sonnet-5` | $2 / $10 | Balanced everyday coding — newer *and* cheaper than Sonnet 4.6 |
 | `opencode/claude-haiku-4-5` | $1 / $5 | Fast, lightweight tasks |
 | `opencode/gpt-5.5` *(≤272K)* | $5 / $30 | Long-context, OpenAI ecosystem |
 | `opencode/gpt-5.4-mini` | $0.75 / $4.50 | Cost-efficient frontier |
-| `opencode/gemini-3.1-pro` | $2 / $12 | Multimodal, Google ecosystem |
+| `opencode/gemini-3.1-pro` *(≤200K)* | $2 / $12 | Multimodal, Google ecosystem |
 | `opencode/qwen3.7-plus` | $0.40 / $1.60 | Budget-friendly heavy lifting |
 
-**Free tier** *(rotating, time-limited, for community feedback):* `big-pickle` *(stealth)*, `deepseek-v4-flash-free`, `mimo-v2.5-free`, `nemotron-3-ultra-free`.
+**Free tier** *(rotating, time-limited, for community feedback):* `big-pickle` *(stealth)*, `deepseek-v4-flash-free`, `mimo-v2.5-free`, `north-mini-code-free`, `nemotron-3-ultra-free`.
 
-> 50+ models total — full list, cached-read/write rates, GPT-5 Codex variants, Gemini, GLM, Kimi, MiniMax, Grok, and the Claude Opus 4.8/4.7/4.5/4.1 line: [opencode.ai/docs/zen](https://opencode.ai/docs/zen) · Deeper guide: [`docs/zen.md`](docs/zen.md).
+> 📚 Full lineup, cached-read/write rates, GPT-5 Codex variants, Gemini, GLM, Kimi, MiniMax, DeepSeek, Grok, and the Claude Opus 4.8/4.7/4.6/4.5 line: [opencode.ai/docs/zen](https://opencode.ai/docs/zen) · Deeper guide (incl. deprecation sunset dates): [`docs/zen.md`](docs/zen.md).
 
-> 💡 **Pattern: cheap explorer / strong executor.** Use a cheap model (`qwen3.7-plus`, `gpt-5.4-mini`) for `explore` and `scout` subagents that read a lot, and a stronger one (`claude-sonnet-4-6` or `claude-opus-4-8`) for the main `build` agent that does the editing.
+> 💡 **Pattern: cheap explorer / strong executor.** Use a cheap model (`qwen3.7-plus`, `gpt-5.4-mini`) for `explore` and `scout` subagents that read a lot, and a stronger one (`claude-sonnet-5` or `claude-opus-4-8`) for the main `build` agent that does the editing.
+
+#### OpenCode Go
+
+The flat-rate alternative to Zen: **$10/month ($5 your first month)** for a curated set of hosted open coding models — no API keys, no per-token math. Usage limits apply (roughly $12 per 5 hours / $30 per week / $60 per month of equivalent usage); past them, Go can fall back to a Zen balance.
+
+**Zen vs. Go in one line:** Zen bills per token across the full lineup; Go is a fixed subscription to open models. Reach for Go to learn and hack on a predictable budget; reach for Zen (or direct keys) when you want frontier models. Details: [opencode.ai/docs/go](https://opencode.ai/docs/go/) · [`docs/zen.md`](docs/zen.md).
 
 ---
 
@@ -262,7 +277,7 @@ Natural workflow:
        (implements, edits, runs tests)
 ```
 
-> 💡 Prompts like `think hard`, `think more`, or `ultrathink` nudge reasoning depth on supported models — the same pattern in the [Anthropic prompt engineering guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview).
+> 💡 Prompts like `think hard`, `think more`, or `ultrathink` nudge reasoning depth on supported models — the same pattern in the [Anthropic prompt engineering guide](https://platform.claude.com/docs/en/docs/build-with-claude/prompt-engineering/overview).
 
 #### File references and shell
 
@@ -362,7 +377,7 @@ opencode github install     # add a workflow file to your repo
 opencode pr 123             # check out PR #123 and start a session
 ```
 
-Useful `run` flags: `--continue` / `--session <id>` (resume), `--fork` (branch a session), `--share` (publish), `--format json` (machine-readable), `--file <path>` (attach), `--replay` (interactive replay, v1.16+), `--dangerously-skip-permissions` (auto-approve everything not `deny` — **CI only**).
+Useful `run` flags: `--continue` / `--session <id>` (resume), `--fork` (branch a session), `--share` (publish), `--format json` (machine-readable), `--file <path>` (attach), `--replay` (interactive replay, v1.16+), `--auto` (auto-approve everything not `deny` — **CI only**). There's also a lightweight `--mini` mode (v1.17.10+).
 
 Sessions, stats, sharing:
 
@@ -460,7 +475,7 @@ description: Run tests and triage failures
 agent: build
 ---
 
-!pnpm test --reporter=verbose
+!`pnpm test --reporter=verbose`
 
 If any tests failed above, open the failing files and propose precise fixes.
 Otherwise, summarize the coverage.
@@ -479,7 +494,7 @@ Save as `.opencode/commands/test.md` → invoke with `/test`.
 |---|---|
 | `$ARGUMENTS` / `$1` / `$2` | Text after the command name |
 | `@<path>` | File content (fuzzy resolved) |
-| `` `!<cmd>` `` | Shell stdout |
+| ``!`<cmd>` `` | Shell stdout (backticks required in templates) |
 
 This repo ships four examples in [`.opencode/commands/`](.opencode/commands/): `/review`, `/pr`, `/test`, `/optimize`.
 
@@ -568,7 +583,7 @@ Drop a markdown file in `.opencode/agents/`:
 ---
 description: Senior frontend engineer — Tailwind + React + TypeScript
 mode: all
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-5
 permission:
   edit: allow
   bash:
@@ -648,7 +663,7 @@ Featured walkthroughs in [`mcp-servers/`](./mcp-servers/):
 *[→ Full FAQ in `docs/reference/faq.md`](docs/reference/faq.md)*
 
 **Is OpenCode free?**
-The software is open source (MIT). You pay for whichever LLM provider you use. [OpenCode Zen](#opencode-zen) is pay-as-you-go starting at fractions of a cent per request; BYOK works for direct providers.
+The software is open source (MIT). You pay for whichever LLM provider you use. [OpenCode Zen](#opencode-zen) is pay-as-you-go per token; [OpenCode Go](#opencode-go) is a flat $10/month for hosted open models; BYOK works for direct providers.
 
 **Does OpenCode work without an internet connection?**
 Yes, with a local model (Ollama, LM Studio, llama.cpp). Network is needed for hosted providers, remote MCP servers, sharing, and updates.
@@ -671,23 +686,24 @@ Set `bash` permission to `"ask"` at the project level, or use the glob form to w
 
 *[→ Full changelog in `docs/reference/changelog.md`](docs/reference/changelog.md)*
 
-**Current release:** **v1.16.2** *(2026-06-05)*. Run `opencode upgrade` to get it.
+**Current release:** **v1.17.13** *(2026-07-01)*. Run `opencode upgrade` to get it.
 
-**New in v1.16:**
+**New in v1.17:**
 
-- 🆕 **File-based agents & skill discovery** — drop-in agent markdown files and `SKILL.md` discovery are GA; scaffold an agent with `opencode agent create`.
-- 🆕 **Workspace cloning & session mobility** — managed workspace clones keep dirty/untracked files, and you can move sessions between workspaces and directories.
-- 🆕 **`opencode run --replay`** — interactively replay a run as it streams.
-- 🆕 **OpenAI models via AWS Bedrock** — plus GitHub Copilot token-based usage tracking.
-- ⚡ **~38% faster startup**, and a desktop app refresh (color themes, thinking-level selector, Servers tab).
+- 🆕 **Session snapshots & revert** *(v1.17.11)* — roll a session back to an earlier message, including the file changes it made.
+- 🆕 **TUI yolo mode** *(v1.17.12)* — auto-approve permission prompts from inside the TUI; plus adaptive thinking for Claude Sonnet 5.
+- 🆕 **MCP resources** *(v1.17.10)* — resource template listing and resource-read tools, and MCP server instructions now land in session context. Local servers also gained a `cwd` option *(v1.17.4)*.
+- 🆕 **`--mini` CLI mode & V2 plugin API** *(v1.17.10)* — a lightweight CLI surface, namespaced plugin hooks, and Effect/Promise plugin support.
+- ⚡ **Faster file search** (new `fff`-backed tools), WSL-backed desktop on Windows, and a desktop v2 refresh (Chrome-style tabs, searchable model picker) *(v1.17.0–v1.17.13)*.
+- ⚠️ **Deprecation:** the `reference` config key is now `references` *(v1.17.1; old entries still load)*.
 
-**Still recent (v1.15):**
+**Still recent (v1.16):**
 
-- **Glob-pattern bash permissions** — fine-grained allow/ask/deny per command pattern (rules match in order, last match wins).
-- **Remote MCP with auto-OAuth** — Dynamic Client Registration handled out of the box.
-- **ACP server (`opencode acp`)** — Agent Client Protocol for editor integrations.
-- **Managed configs** — macOS `/Library/Application Support/opencode/`, Linux `/etc/opencode/`, Windows `%ProgramData%\opencode`, plus macOS MDM preferences.
-- 📝 **AGENTS.md** is canonical; `CLAUDE.md` is now a fallback only.
+- **File-based agents & skill discovery** — drop-in agent markdown files and `SKILL.md` discovery are GA; scaffold an agent with `opencode agent create`.
+- **Workspace cloning & session mobility** — managed workspace clones keep dirty/untracked files; move sessions between workspaces and directories.
+- **`opencode run --replay`** — interactively replay a run as it streams.
+- **~38% faster startup**, OpenAI models via AWS Bedrock, GitHub Copilot usage tracking.
+- 📝 **AGENTS.md** is canonical; `CLAUDE.md` is a fallback only.
 
 > 💡 Source of truth: [GitHub releases](https://github.com/anomalyco/opencode/releases).
 
@@ -711,4 +727,6 @@ Set `bash` permission to `"ask"` at the project level, or use the glob form to w
 
 > Features, pricing, and availability change frequently. Always check the [official OpenCode documentation](https://opencode.ai/docs/) for the most current information.
 
-*Last reviewed 2026-06-08 · OpenCode v1.16.2 · Spotted something stale? [Open an issue](../../issues) or send a PR — see [`CONTRIBUTING.md`](CONTRIBUTING.md).*
+*Last reviewed 2026-07-05 · OpenCode v1.17.13 · Spotted something stale? [Open an issue](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know/issues) or send a PR — see [`CONTRIBUTING.md`](CONTRIBUTING.md).*
+
+**Found this useful? [Give it a ⭐](https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know) — it's how other developers discover the guide.**

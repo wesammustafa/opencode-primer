@@ -15,9 +15,9 @@ LLMs hallucinate APIs that don't exist or use APIs that were deprecated three ve
 
 ## Setup
 
-Get an API key at [context7.com](https://context7.com).
+An API key is optional — the server works without one, but signing up at [context7.com](https://context7.com) for a free key is recommended for higher rate limits.
 
-Add to `opencode.json`:
+Add to `opencode.json` (drop the `headers` block if you're going keyless):
 
 ```json
 {
@@ -34,7 +34,7 @@ Add to `opencode.json`:
 }
 ```
 
-Set the env var in your shell:
+If you use a key, set the env var in your shell:
 
 ```bash
 export CONTEXT7_API_KEY=ctx7_...
@@ -54,7 +54,7 @@ specifically how to handle redirects from a loader
 ```
 
 ```text
-I'm migrating from Next.js 14 to 15. Use context7 to find the breaking
+I'm migrating from Next.js 15 to 16. Use context7 to find the breaking
 changes in the App Router and surface the ones that affect our project.
 ```
 
@@ -86,7 +86,7 @@ Thousands of libraries — React, Next.js, Vue, Angular, Svelte, Tailwind, TanSt
 
 ## Gotchas
 
-- **API key required** — there's a free tier, but you need to sign up.
+- **Rate limits without a key** — the keyless endpoint works but is rate-limited more aggressively. A free API key raises the limits.
 - **Token budget** — Context7 returns chunks of docs; very chatty queries can push past your context window. Be specific in what you ask for.
 - **Version drift** — pin the version explicitly when your repo's `package.json` is behind latest.
 

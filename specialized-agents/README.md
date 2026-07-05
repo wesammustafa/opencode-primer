@@ -28,7 +28,7 @@ You can also reference the prompt file from `opencode.json` without copying:
     "code-reviewer": {
       "description": "Senior code reviewer",
       "mode": "subagent",
-      "model": "anthropic/claude-sonnet-4-5",
+      "model": "anthropic/claude-sonnet-5",
       "prompt": "{file:./specialized-agents/system-prompts/code-reviewer-prompt.md}",
       "permission": { "edit": "deny" }
     }
@@ -36,17 +36,19 @@ You can also reference the prompt file from `opencode.json` without copying:
 }
 ```
 
+> ⚠️ **Warning:** `{file:...}` inlines the file verbatim — including its YAML frontmatter — into the system prompt. Strip the frontmatter block from the copy you reference this way.
+
 ## Available roles
 
 | Role | Mode | Reach for it when… | Prompt | Description |
 |---|---|---|---|---|
 | **Code Reviewer** | subagent | Surface bugs / security / perf / maintainability in a diff or branch | [prompt](system-prompts/code-reviewer-prompt.md) | [description](descriptions/code-reviewer.md) |
 | **Security Reviewer** | subagent | Audit code for OWASP-style vulnerabilities | [prompt](system-prompts/security-reviewer-prompt.md) | [description](descriptions/security-reviewer.md) |
-| **Backend Engineer** | primary | TypeScript/Go/Python API work, DB integration, REST/GraphQL | [prompt](system-prompts/backend-engineer-prompt.md) | [description](descriptions/backend-engineer.md) |
-| **Frontend Engineer** | primary | React/Tailwind/TypeScript UI work, accessibility, component design | [prompt](system-prompts/frontend-engineer-prompt.md) | [description](descriptions/frontend-engineer.md) |
-| **Tech Lead** | primary | Architectural decisions, cross-team trade-offs, sequencing work | [prompt](system-prompts/tech-lead-prompt.md) | [description](descriptions/tech-lead.md) |
-| **UX Engineer** | primary | Component-first UI work, design-system alignment | [prompt](system-prompts/ux-engineer-prompt.md) | [description](descriptions/ux-engineer.md) |
-| **Database Engineer** | primary | Schema design, migrations, query performance | [prompt](system-prompts/database-engineer-prompt.md) | [description](descriptions/database-engineer.md) |
+| **Backend Engineer** | all (primary + subagent) | TypeScript/Go/Python API work, DB integration, REST/GraphQL | [prompt](system-prompts/backend-engineer-prompt.md) | [description](descriptions/backend-engineer.md) |
+| **Frontend Engineer** | all (primary + subagent) | React/Tailwind/TypeScript UI work, accessibility, component design | [prompt](system-prompts/frontend-engineer-prompt.md) | [description](descriptions/frontend-engineer.md) |
+| **Tech Lead** | all (primary + subagent) | Architectural decisions, cross-team trade-offs, sequencing work | [prompt](system-prompts/tech-lead-prompt.md) | [description](descriptions/tech-lead.md) |
+| **UX Engineer** | all (primary + subagent) | Component-first UI work, design-system alignment | [prompt](system-prompts/ux-engineer-prompt.md) | [description](descriptions/ux-engineer.md) |
+| **Database Engineer** | all (primary + subagent) | Schema design, migrations, query performance | [prompt](system-prompts/database-engineer-prompt.md) | [description](descriptions/database-engineer.md) |
 
 > 💡 These are starting points. Edit the prompts to match your stack — replace generic guidance with your actual conventions, technologies, and naming.
 
@@ -57,7 +59,7 @@ You can also reference the prompt file from `opencode.json` without copying:
 ```text
 [build] > implement the OAuth refresh endpoint
 [build] > @code-reviewer review the changes
-[build] > @security-reviewer audit the same files
+[build] > @security-auditor audit the same files
 [build] > address the high-severity findings
 ```
 
